@@ -10,7 +10,12 @@ const withSerwist = withSerwistInit({
 })
 
 const nextConfig: NextConfig = {
-  // App Router is default in Next.js 15+
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: '*.supabase.in' },
+    ],
+  },
 }
 
 export default withSerwist(nextConfig)
