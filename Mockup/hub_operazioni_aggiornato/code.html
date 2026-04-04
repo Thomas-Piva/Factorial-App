@@ -1,0 +1,208 @@
+<!DOCTYPE html><html class="light" lang="it"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#fcf9f4",
+              "on-secondary": "#ffffff",
+              "outline-variant": "#c2c8bf",
+              "on-primary-fixed-variant": "#2c4e31",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#334c43",
+              "on-primary-fixed": "#002109",
+              "tertiary-fixed": "#cde9dd",
+              "surface-variant": "#e5e2dd",
+              "surface-container-high": "#ebe8e3",
+              "outline": "#737971",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#acd3ad",
+              "inverse-primary": "#a9d0aa",
+              "on-secondary-fixed": "#092011",
+              "on-background": "#1c1c19",
+              "on-tertiary": "#ffffff",
+              "primary-fixed": "#c5edc5",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#31302d",
+              "surface": "#fcf9f4",
+              "surface-container-highest": "#e5e2dd",
+              "primary": "#234428",
+              "surface-tint": "#446647",
+              "surface-container-low": "#f6f3ee",
+              "tertiary-container": "#415950",
+              "on-tertiary-fixed": "#072019",
+              "on-secondary-container": "#516a56",
+              "secondary": "#4c6450",
+              "primary-container": "#3a5c3e",
+              "inverse-on-surface": "#f3f0eb",
+              "primary-fixed-dim": "#a9d0aa",
+              "background": "#fcf9f4",
+              "surface-dim": "#dcdad5",
+              "on-surface-variant": "#424842",
+              "on-error": "#ffffff",
+              "tertiary-fixed-dim": "#b1cdc1",
+              "secondary-fixed": "#ceead0",
+              "tertiary": "#2a423a",
+              "surface-container": "#f0ede9",
+              "on-tertiary-container": "#b4cfc4",
+              "secondary-container": "#ceead0",
+              "on-surface": "#1c1c19",
+              "error": "#ba1a1a",
+              "on-secondary-fixed-variant": "#344c3a",
+              "secondary-fixed-dim": "#b2cdb5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Manrope', sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fcf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md">
+<div class="flex justify-between items-center px-6 py-4 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<a class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/10 block hover:ring-2 hover:ring-primary/20 transition-all duration-300" href="#profile" style="">
+<img alt="Julieta profile photo" class="w-full h-full object-cover" data-alt="close-up portrait of a woman with warm features and natural hair against a soft sunlit garden background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK7BgxJz0aDgENGbzXBsAz2yupm3yka9Fgp6jiXNpqkZNjVxTb1DpfCLy-JQvc0Q1KtoCvjR15I3xWCFNtAfTyqt3JENXSodFr7uF1cbJydRXj_KMch9ca4PM7PkoyeT_qfFYNz85K-fodeR9NsN7-nRfEW3CAsG5jJj_XsIGPUvtr0cRPe7cOL8vnePcBqI7SCARE7LrJa__Sm2Lpf0xhuf86itR0G0Gns70Cp8dye5ti87DLj2aRNr4sWc0YN6jkBYSeMG27YlY" style="">
+</a>
+<h1 class="text-[#234428] font-extrabold tracking-tighter text-lg" style="">nome account<div><br></div></h1>
+</div>
+<button class="text-[#234428] hover:opacity-80 transition-opacity active:scale-95 duration-200" style="">
+<span class="material-symbols-outlined" data-icon="notifications" style="">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-7xl mx-auto">
+<!-- Store Selector -->
+<section class="mb-6">
+<div class="relative group">
+<label class="block text-[10px] font-label font-bold tracking-[0.2em] text-primary/50 uppercase mb-2 ml-1" for="store-select" style="">Managing Store</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-none rounded-2xl py-4 pl-5 pr-12 text-primary font-bold text-sm appearance-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer" id="store-select">
+<option value="dr-taffi">Dr Taffi - Erboristeria</option>
+<option selected="" value="erbolario">L'Erbolario - Centro</option>
+<option value="bottega-verde">Bottega Verde - Mall</option>
+</select>
+<div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-primary">
+<span class="material-symbols-outlined" data-icon="unfold_more" style="">unfold_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Hero Editorial Section -->
+<section class="mb-10">
+<div class="relative h-48 w-full rounded-3xl overflow-hidden mb-8">
+<img alt="Botanical Header" class="w-full h-full object-cover" data-alt="aerial view of an organic herb garden with organized rows of sage, rosemary and lavender under soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnW0k3k4XLv9PW0ui3t2CkbVfkHj8MX6ewO7bUDSeLdFRGbGUPfqEacllIHAwi8WvX6TftZnQ1Sc47SQq0YW0fagu_14zywZhJw_HfT_GegT0au-H_XRkk7rpkwGVQv9h35zUGPfv3oLiLRTujwoLCB14lCR1nqqRfvXhV3qkLWwRNsq_Ws3JhSb2h-lLsZNUuw2QcOa12yOEF2QjoL3rdTivT4M91h6o2Q6SpnDNa-HDZomlYif9KxZZlpsx3gGiwuP03s6uaJqA" style="">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent flex flex-col justify-end p-6">
+<p class="text-on-primary/80 font-label tracking-widest text-[10px] uppercase mb-1" style="">bentornata</p>
+<h2 class="text-on-primary text-3xl font-headline font-bold tracking-tight" style="">Julieta</h2>
+</div>
+</div>
+</section>
+<!-- Operazioni Section -->
+<section class="mb-12">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-primary font-headline font-bold text-xl tracking-tight" style="">Operazioni</h3>
+<span class="text-secondary text-sm font-medium" style="">Managing Hub</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+<!-- Timbra -->
+<button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-3xl hover:bg-surface-container-low transition-colors duration-300 shadow-[0_4px_24px_rgba(35,68,40,0.03)] group" style="">
+<div class="w-12 h-12 bg-primary-container/10 rounded-2xl flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="schedule" style="">schedule</span>
+</div>
+<span class="text-on-surface font-medium text-sm" style="">Timbra</span>
+</button>
+<!-- Documenti -->
+<button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-3xl hover:bg-surface-container-low transition-colors duration-300 shadow-[0_4px_24px_rgba(35,68,40,0.03)] group" style="">
+<div class="w-12 h-12 bg-primary-container/10 rounded-2xl flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="folder_open" style="">folder_open</span>
+</div>
+<span class="text-on-surface font-medium text-sm" style="">Documenti</span>
+</button>
+<!-- Turni -->
+<button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-3xl hover:bg-surface-container-low transition-colors duration-300 shadow-[0_4px_24px_rgba(35,68,40,0.03)] group" style="">
+<div class="w-12 h-12 bg-primary-container/10 rounded-2xl flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="calendar_month" style="">calendar_month</span>
+</div>
+<span class="text-on-surface font-medium text-sm" style="">Turni</span>
+</button>
+<!-- Assenze -->
+<button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-3xl hover:bg-surface-container-low transition-colors duration-300 shadow-[0_4px_24px_rgba(35,68,40,0.03)] group" style="">
+<div class="w-12 h-12 bg-primary-container/10 rounded-2xl flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="eco" style="">eco</span>
+</div>
+<span class="text-on-surface font-medium text-sm" style="">Assenze</span>
+</button>
+</div>
+</section>
+<!-- Talento Section (Bento Inspired) -->
+<section class="mb-12">
+<h3 class="text-primary font-headline font-bold text-xl tracking-tight mb-6" style="">Talento</h3>
+<div class="grid grid-cols-1 gap-6">
+<!-- Social Button / Card -->
+<!-- Persone Button / Card -->
+<button class="relative group h-40 rounded-[2rem] overflow-hidden flex items-center p-8 bg-surface-container-low transition-all hover:shadow-xl" style="">
+<div class="absolute right-0 top-0 h-full w-1/2 opacity-20 group-hover:scale-110 transition-transform duration-500 pointer-events-none">
+<img alt="Community" class="w-full h-full object-cover rounded-l-full" data-alt="warm sunbeams filtering through dense forest leaves creating a cozy and welcoming natural atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUH_BM8H7eRh33eN4WaZDMoUbPO1Scj-PAXrKtfV24TycivK_IGAq8KOX8VhBQfGfHeABu2_kFcK0dhVdgOashAkSl6tkc59RDHR9HgSkECBPNHF-38V_b0UbL9xDTPFrzVDwCyZJ65CVbEbEqVbseCZCko2biqTmmxrPkE3uSGEdVRco8-e78oGXTCnBwpEBemmmmW-cddLZp34jG5IpzUs3yncqkL4enI9PB67r_4y2UReRJ7qthOMfCELINdqyP6jEZl_tnXk" style="">
+</div>
+<div class="relative z-10 flex flex-col items-start text-left">
+<div class="w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-xl" data-icon="groups" style="">groups</span>
+</div>
+<h4 class="text-primary font-bold text-2xl font-headline tracking-tight" style="">Persone</h4>
+<p class="text-secondary text-sm" style="">Directory of expert herbalists</p>
+</div>
+</button>
+</div>
+</section>
+<!-- Stats Card / Extra Content -->
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-[#fcf9f4]/80 dark:bg-stone-900/80 backdrop-blur-md shadow-[0_-4px_24px_rgba(35,68,40,0.05)] rounded-t-[24px]">
+<div class="flex justify-around items-center px-4 pb-6 pt-3">
+<a class="flex flex-col items-center justify-center text-[#4c6450] dark:text-[#a3b1a5] p-2 hover:bg-[#f0ede9] dark:hover:bg-stone-800 rounded-full transition-colors active:scale-90 duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="home" style="">home</span>
+<span class="font-manrope font-medium text-[10px] tracking-wide uppercase mt-1" style="">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4c6450] dark:text-[#a3b1a5] p-2 hover:bg-[#f0ede9] dark:hover:bg-stone-800 rounded-full transition-colors active:scale-90 duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="inbox" style="">inbox</span>
+<span class="font-manrope font-medium text-[10px] tracking-wide uppercase mt-1" style="">Inbox</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4c6450] dark:text-[#a3b1a5] p-2 hover:bg-[#f0ede9] dark:hover:bg-stone-800 rounded-full transition-colors active:scale-90 duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="calendar_today" style="">calendar_today</span>
+<span class="font-manrope font-medium text-[10px] tracking-wide uppercase mt-1" style="">calen</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#3a5c3e] text-[#fcf9f4] rounded-full px-5 py-2 active:scale-90 duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="grid_view" style="">grid_view</span>
+<span class="font-manrope font-medium text-[10px] tracking-wide uppercase mt-1" style="">Hub</span>
+</a>
+</div>
+</nav>
+</body></html>

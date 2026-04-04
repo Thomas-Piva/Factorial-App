@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="light" lang="it"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Turni Marzo - Herbalist PWA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#234428",
+                        "background": "#fcf9f4",
+                        "surface": "#fcf9f4",
+                        "on-surface": "#1c1c19",
+                        "outline": "#737971",
+                        "surface-container-high": "#ebe8e3",
+                        "surface-variant": "#e5e2dd",
+                    },
+                    fontFamily: {
+                        sans: ["Manrope", "sans-serif"],
+                        headline: ["Manrope", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #fcf9f4;
+            color: #1c1c19;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .grid-border {
+            border-color: #e5e2dd;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen overflow-hidden">
+<div class="flex-1 flex flex-col overflow-hidden">
+<!-- Header Content (Non-navigation title and filters) -->
+<div class="px-6 pt-6 pb-2 shrink-0">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<h1 class="text-2xl font-extrabold tracking-tight text-primary font-headline">Turni Marzo</h1>
+<span class="material-symbols-outlined text-primary cursor-pointer">expand_more</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">
+                    29
+                </div>
+<button class="text-primary">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex overflow-x-auto no-scrollbar gap-3 pb-4">
+<button class="shrink-0 h-10 w-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="shrink-0 h-10 px-6 rounded-full bg-primary text-white text-sm font-semibold tracking-wide">
+                L'ERBOLARIO
+            </button>
+<button class="shrink-0 h-10 px-6 rounded-full bg-surface-container-high text-on-surface text-sm font-semibold tracking-wide">
+                Dr Taffi
+            </button>
+<button class="shrink-0 h-10 px-6 rounded-full bg-surface-container-high text-on-surface text-sm font-semibold tracking-wide">
+                Fuori ufficio
+            </button>
+</div>
+</div>
+<!-- Week Selector -->
+<div class="px-6 py-3 flex items-center justify-between shrink-0 border-t grid-border">
+<button class="text-outline p-1">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<span class="text-sm font-bold text-outline uppercase tracking-wider">settimana 13: Mar 2026</span>
+<button class="text-outline p-1">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- Schedule Grid -->
+<div class="flex-1 overflow-auto relative">
+<div class="min-w-full inline-block align-middle">
+<!-- Table Header -->
+<div class="sticky top-0 z-20 flex bg-background border-b grid-border">
+<div class="w-20 shrink-0 border-r grid-border"></div>
+<div class="flex-1 min-w-[140px] p-4 flex justify-center items-center border-r grid-border">
+<span class="text-sm font-bold text-outline uppercase tracking-tight">Sab 28</span>
+</div>
+<div class="flex-1 min-w-[140px] p-4 flex justify-center items-center">
+<div class="bg-primary text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-sm">
+                        Dom 29
+                    </div>
+</div>
+</div>
+<!-- Table Rows -->
+<div class="flex flex-col">
+<!-- Row 1: Julieta -->
+<div class="flex border-b grid-border min-h-[100px]">
+<div class="w-20 shrink-0 flex items-center justify-center border-r grid-border bg-background">
+<img alt="Julieta Muglia" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWy9TR_JQuB1NXQ04QYdaiW3pyltaMb3Or5HMxFqgHwqP4ptpKnvf1nOqgwcK-pOa8L1mdEvNaKJVghABAXo-_UaQ58fUWHuGarJSNvl1I15jZAQm4uH1qctshsk9Z5ZNowlkPXS9qM5-uo_DcjFaX3ZDB0yGDTUFOavJcNN7WMAZGKZ0hxz4b7nPo2HGEIlhZhQFG0Xx06Lvm89azlv4swBsoCVAtDc91hErBvTluvdfmEedN7vCWOQO-6n6hPE5Nr9moOOyojJ4"/>
+</div>
+<div class="flex-1 min-w-[140px] p-4 border-r grid-border">
+<span class="inline-block px-2 py-1 bg-[#F5E6F0] text-[#8C4A70] text-[10px] font-bold uppercase rounded">riposo</span>
+</div>
+<div class="flex-1 min-w-[140px] p-4">
+<div class="relative pl-3 border-l-4 border-[#FBBF24]">
+<p class="text-sm font-extrabold text-primary">chiusura</p>
+<p class="text-xs text-outline font-medium mt-1">14:00 - 20:00</p>
+<span class="material-symbols-outlined text-xs text-outline mt-2 block">location_on</span>
+</div>
+</div>
+</div>
+<!-- Row 2: GG -->
+<div class="flex border-b grid-border min-h-[100px]">
+<div class="w-20 shrink-0 flex items-center justify-center border-r grid-border">
+<div class="w-12 h-12 rounded-full bg-[#E0F7FA] text-[#00838F] flex items-center justify-center text-sm font-extrabold border-2 border-white shadow-sm">GG</div>
+</div>
+<div class="flex-1 min-w-[140px] p-4 border-r grid-border"></div>
+<div class="flex-1 min-w-[140px] p-4"></div>
+</div>
+<!-- Row 3: Caterina -->
+<div class="flex border-b grid-border min-h-[100px]">
+<div class="w-20 shrink-0 flex items-center justify-center border-r grid-border">
+<img alt="Caterina" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR_eEnCtKd6bR6dLbjQ-utAGuB0hJTDy__AB81_lK6ZTpWkrkeDJuBIGPyM59oq0zms8dLOFvkQ7-pMOmN6BAdL-dlPGi1diwVbn9I-xBg51rX4mn3mmkrpdX_pI2Nsuu9uPECHSiBJv9VXYq1EzIzw87al7jceLRFaAARfeKBNIU_pbcr_Cx5eRMe-pF0JLcO-YPbaH5RqVnC_UPZ5XHz222_Znx7cVknalxDL065n4KivCmid_qJ9k9IZXeWbHnWG276jrDST1c"/>
+</div>
+<div class="flex-1 min-w-[140px] p-4 border-r grid-border">
+<p class="text-sm font-bold text-primary">a</p>
+<p class="text-xs text-outline font-medium">20:00</p>
+</div>
+<div class="flex-1 min-w-[140px] p-4">
+<span class="inline-block px-3 py-1 bg-surface-container-high text-outline text-[10px] font-bold uppercase rounded">Giorno di riposo</span>
+</div>
+</div>
+<!-- Row 4: Loretta -->
+<div class="flex border-b grid-border min-h-[100px]">
+<div class="w-20 shrink-0 flex items-center justify-center border-r grid-border">
+<img alt="Loretta" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCCL5p27WPcgmLKomG1kJCbbjCmfwSMH0P9Z86YTJkKilYrLv1wObMT_g2sFI-_vWAKNi9wdEOcFiYo6Eit-qJS6HmIwjxJY8HvKEcyYs1GWbNrJ3tBzhlNTOOuCvua5kjKA7AxPopPfBEOsZD9Kc2RrQWTlx-94w7evfcbUg4cVmU3PVTyT_jKZ434zAI3DJsMp9ESfc6kiA2ramE3T0BljDIl6dAIUCDzdyw7LCeWu5kFcg8CPjcaIoS2224_CZz37WcZlVWq1s"/>
+</div>
+<div class="flex-1 min-w-[140px] p-4 border-r grid-border">
+<p class="text-sm font-bold text-primary">a</p>
+<p class="text-xs text-outline font-medium">20:00</p>
+</div>
+<div class="flex-1 min-w-[140px] p-4">
+<div class="relative pl-3 border-l-4 border-primary">
+<p class="text-sm font-extrabold text-primary">apertura</p>
+<p class="text-xs text-outline font-medium mt-1">08:30 - 14:30</p>
+<span class="material-symbols-outlined text-xs text-outline mt-2 block">location_on</span>
+</div>
+</div>
+</div>
+<!-- Row 5: SB -->
+<div class="flex border-b grid-border min-h-[100px]">
+<div class="w-20 shrink-0 flex items-center justify-center border-r grid-border">
+<div class="w-12 h-12 rounded-full bg-[#FFF3E0] text-[#EF6C00] flex items-center justify-center text-sm font-extrabold border-2 border-white shadow-sm">SB</div>
+</div>
+<div class="flex-1 min-w-[140px] p-4 border-r grid-border"></div>
+<div class="flex-1 min-w-[140px] p-4"></div>
+</div>
+<!-- Row 6: Elena -->
+<div class="flex border-b grid-border min-h-[100px]">
+<div class="w-20 shrink-0 flex items-center justify-center border-r grid-border">
+<img alt="Elena" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvxbTlyZpDxLDtERcCHhLrJ4aQ7NAaz7cZbqBgVXCp6FyO9cJkbVPrfmSrCeyFjK5XWAX2OB8ILGrz2rRfQn-4X5BRNedD8wZQNkd7Qg_cn3VslblV88RKrMOKLM3lEWV0i9o752S-WyEK-B3uscFUxszhUBaSAEAyDW53t9Qu1wfPiH9E1bSJKlx8EmvmtkDdPzOkOvhsam1w6w8btCalprNLoT5g4SQIjpHXBhsS9cq2B5CtXsN14KXkr30orYBqw9VNedmpTGg"/>
+</div>
+<div class="flex-1 min-w-[140px] p-4 border-r grid-border">
+<p class="text-sm font-bold text-primary">a</p>
+<p class="text-xs text-outline font-medium">14:30</p>
+</div>
+<div class="flex-1 min-w-[140px] p-4">
+<span class="inline-block px-3 py-1 bg-surface-container-high text-outline text-[10px] font-bold uppercase rounded">Giorno di riposo</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

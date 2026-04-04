@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html class="light" lang="it"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verde Mentha - Persone</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f6f3ee",
+              "on-primary": "#ffffff",
+              "secondary": "#4c6450",
+              "inverse-on-surface": "#f3f0eb",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed-variant": "#2c4e31",
+              "tertiary-fixed-dim": "#b1cdc1",
+              "on-error-container": "#93000a",
+              "primary": "#234428",
+              "on-primary-fixed": "#002109",
+              "error-container": "#ffdad6",
+              "on-primary-container": "#acd3ad",
+              "background": "#fcf9f4",
+              "secondary-container": "#ceead0",
+              "tertiary-container": "#415950",
+              "primary-fixed-dim": "#a9d0aa",
+              "primary-fixed": "#c5edc5",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#cde9dd",
+              "on-secondary-container": "#516a56",
+              "surface-container-lowest": "#ffffff",
+              "on-surface-variant": "#424842",
+              "inverse-primary": "#a9d0aa",
+              "tertiary": "#2a423a",
+              "on-surface": "#1c1c19",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#344c3a",
+              "on-tertiary-fixed": "#072019",
+              "secondary-fixed-dim": "#b2cdb5",
+              "on-tertiary-container": "#b4cfc4",
+              "inverse-surface": "#31302d",
+              "surface-container-high": "#ebe8e3",
+              "on-secondary-fixed": "#092011",
+              "surface-variant": "#e5e2dd",
+              "on-background": "#1c1c19",
+              "on-tertiary-fixed-variant": "#334c43",
+              "surface-container": "#f0ede9",
+              "surface-dim": "#dcdad5",
+              "surface": "#fcf9f4",
+              "secondary-fixed": "#ceead0",
+              "primary-container": "#3a5c3e",
+              "outline-variant": "#c2c8bf",
+              "outline": "#737971",
+              "surface-bright": "#fcf9f4",
+              "error": "#ba1a1a",
+              "surface-container-highest": "#e5e2dd",
+              "surface-tint": "#446647"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#fcf9f4] dark:bg-stone-950/80 backdrop-blur-md flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="text-[#234428] dark:text-emerald-500 hover:bg-[#f0ede9] dark:hover:bg-stone-800 transition-colors p-2 rounded-full scale-95 duration-200 ease-in-out">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-[#234428] dark:text-emerald-500 font-headline">Persone</h1>
+<div class="flex items-center gap-2">
+<button class="text-[#234428] dark:text-emerald-500 hover:bg-[#f0ede9] dark:hover:bg-stone-800 transition-colors p-2 rounded-full scale-95 duration-200 ease-in-out">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</nav>
+<!-- Content Canvas -->
+<main class="pt-20 px-6 max-w-2xl mx-auto">
+<!-- Filters Section -->
+<section class="mb-8 overflow-x-auto no-scrollbar">
+<div class="flex gap-3 pb-2">
+<button class="flex items-center justify-center bg-surface-container-high px-4 py-2.5 rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-primary text-xl">filter_list</span>
+</button>
+<button class="whitespace-nowrap bg-primary text-on-primary px-5 py-2.5 rounded-full font-medium text-sm tracking-wide">
+                    L'ERBOLARIO
+                </button>
+<button class="whitespace-nowrap bg-surface-container-high text-on-surface-variant px-5 py-2.5 rounded-full font-medium text-sm tracking-wide hover:bg-surface-variant transition-colors">
+                    Dr Taffi
+                </button>
+<button class="whitespace-nowrap bg-surface-container-high text-on-surface-variant px-5 py-2.5 rounded-full font-medium text-sm tracking-wide hover:bg-surface-variant transition-colors">
+                    Fuori ufficio
+                </button>
+</div>
+</section>
+<!-- People List Section -->
+<section class="space-y-4">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-transform active:scale-[0.98] duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a smiling woman with dark hair in a soft lit studio setting with botanical blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWy9TR_JQuB1NXQ04QYdaiW3pyltaMb3Or5HMxFqgHwqP4ptpKnvf1nOqgwcK-pOa8L1mdEvNaKJVghABAXo-_UaQ58fUWHuGarJSNvl1I15jZAQm4uH1qctshsk9Z5ZNowlkPXS9qM5-uo_DcjFaX3ZDB0yGDTUFOavJcNN7WMAZGKZ0hxz4b7nPo2HGEIlhZhQFG0Xx06Lvm89azlv4swBsoCVAtDc91hErBvTluvdfmEedN7vCWOQO-6n6hPE5Nr9moOOyojJ4"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface tracking-tight">Julieta Muglia</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-transform active:scale-[0.98] duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Professional headshot of a woman with light brown hair wearing a cream linen shirt against an off-white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUOJP-4Cjr0fS7tsltmfXrIDWLQM5gbQS-8xYtYcGFCi-Kz2lkzBmXjpjN0RTWOXGv7XEViVf-1MJnbH7rWn8B6RReKlk1qIYS2lWxvOM_dVFZ7RJ2coBhw1k9Vyo5S3zLmMCKZL3Cm1wae786I-9mXfUnkw0FzYPqAEj1jvdgzKoonz1IPGeWleSELqn9N-SDZlMJUWlhGQvLdwqafIGZSCmUUULtKtWHpJSJQzlDFFkMc0lZBxprycxW6-32xmeoErN2o2jFyHY"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface tracking-tight">Giulia Galimberti</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-transform active:scale-[0.98] duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Elegant close-up of a young woman with curly hair looking thoughtfully into the camera with soft window light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR_eEnCtKd6bR6dLbjQ-utAGuB0hJTDy__AB81_lK6ZTpWkrkeDJuBIGPyM59oq0zms8dLOFvkQ7-pMOmN6BAdL-dlPGi1diwVbn9I-xBg51rX4mn3mmkrpdX_pI2Nsuu9uPECHSiBJv9VXYq1EzIzw87al7jceLRFaAARfeKBNIU_pbcr_Cx5eRMe-pF0JLcO-YPbaH5RqVnC_UPZ5XHz222_Znx7cVknalxDL065n4KivCmid_qJ9k9IZXeWbHnWG276jrDST1c"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface tracking-tight">Caterina Rossi</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-transform active:scale-[0.98] duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Portrait of a smiling man with short beard in a natural daylight setting with hints of garden greenery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvJ-6SFDNX98LzBs1yUoDkF8Uhmg5Amc0Zrc58IYeCgOhz6orw9D0hJlnwiz3ENzXLO3v2QS0LeL6CpsBdF2FJzcKJSBXXGjAuhuvdXOl_oQTCOgZwa526j8zXWSynCW74Ej_YJ-ERARbwDLNn_JnkW26otnoMY3JT3u1QboYxxKhuba8Js7Z-0R0mtb_0lQC0BeKrn3-AN01aPotH83hHnmRETv5v4tAhk0XEUfWNf3umRc_oPqh6MzRM20USPw3E28_7otunCCE"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface tracking-tight">Marco Bianchi</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-transform active:scale-[0.98] duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Artistic portrait of a woman with vibrant personality in soft morning light with herbal plant in foreground" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvxbTlyZpDxLDtERcCHhLrJ4aQ7NAaz7cZbqBgVXCp6FyO9cJkbVPrfmSrCeyFjK5XWAX2OB8ILGrz2rRfQn-4X5BRNedD8wZQNkd7Qg_cn3VslblV88RKrMOKLM3lEWV0i9o752S-WyEK-B3uscFUxszhUBaSAEAyDW53t9Qu1wfPiH9E1bSJKlx8EmvmtkDdPzOkOvhsam1w6w8btCalprNLoT5g4SQIjpHXBhsS9cq2B5CtXsN14KXkr30orYBqw9VNedmpTGg"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface tracking-tight">Elena Verdi</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Card 6 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-transform active:scale-[0.98] duration-200">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Kind face of an older gentleman with gray hair in a bright airy studio room with wooden textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ2iE1DWpIbjaHzvXepMOTRshxC1cALgFl72b7U-RSoqab-WMj2vUDfZPQOa7NRnumfyodbdusLhDeFHL2Q7aJfZ90vKb9gnFLgxMaFgvk3afd-jJCasqH7WYGu12BpvJ0wOHjTgGadXQAxbmk03o8VclvxVHPzNlm1pjfudpo-CmT-70B3ERNN-PyWWAOlfUv_J_qavN3NtI9PBmwjE_tUnrgYmeMdpZn9LM3ec3roww-HzU--u7CQUwTt6KcoNGJez4VJkbQ_RI"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface tracking-tight">Alessandro Neri</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</section>
+<!-- Empty state or spacer for FAB if needed -->
+<div class="h-12"></div>
+</main>
+<!-- BottomNavBar -->
+</body></html>

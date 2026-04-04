@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="it"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profilo Personale - L'Erbolario Style</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#e5e2dd",
+              "on-tertiary-container": "#b4cfc4",
+              "on-secondary-fixed-variant": "#344c3a",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "tertiary-fixed": "#cde9dd",
+              "secondary-fixed": "#ceead0",
+              "primary-fixed-dim": "#a9d0aa",
+              "surface-container-low": "#f6f3ee",
+              "tertiary-container": "#415950",
+              "primary-container": "#3a5c3e",
+              "on-secondary-fixed": "#092011",
+              "on-secondary-container": "#516a56",
+              "surface-tint": "#446647",
+              "surface-container-high": "#ebe8e3",
+              "surface": "#fcf9f4",
+              "on-surface": "#1c1c19",
+              "surface-container": "#f0ede9",
+              "primary": "#234428",
+              "tertiary": "#2a423a",
+              "inverse-surface": "#31302d",
+              "inverse-on-surface": "#f3f0eb",
+              "background": "#fcf9f4",
+              "secondary-container": "#ceead0",
+              "outline": "#737971",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#2c4e31",
+              "on-primary-fixed": "#002109",
+              "on-background": "#1c1c19",
+              "surface-bright": "#fcf9f4",
+              "secondary-fixed-dim": "#b2cdb5",
+              "on-primary-container": "#acd3ad",
+              "surface-variant": "#e5e2dd",
+              "outline-variant": "#c2c8bf",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed": "#072019",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed-dim": "#b1cdc1",
+              "secondary": "#4c6450",
+              "on-tertiary": "#ffffff",
+              "primary-fixed": "#c5edc5",
+              "on-error": "#ffffff",
+              "on-surface-variant": "#424842",
+              "surface-dim": "#dcdad5",
+              "on-tertiary-fixed-variant": "#334c43",
+              "inverse-primary": "#a9d0aa",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-[#fcf9f4] dark:bg-stone-950 flex items-center px-6 py-4 z-50">
+<button class="p-2 -ml-2 hover:bg-[#f0ede9] dark:hover:bg-stone-800 transition-colors duration-300 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[#234428] dark:text-[#3a5c3e]">arrow_back</span>
+</button>
+<h1 class="ml-4 font-manrope text-[#234428] font-bold tracking-tight text-lg">Profilo</h1>
+</header>
+<main class="max-w-2xl mx-auto px-6 py-8">
+<!-- Editorial Header Section -->
+<section class="mb-12">
+<h2 class="text-3xl font-extrabold text-primary tracking-tight mb-2">Informazioni Personali</h2>
+<p class="text-on-surface-variant text-sm leading-relaxed max-w-md">
+                Gestisci i dettagli della tua identità botanica. Queste informazioni ci aiutano a personalizzare la tua esperienza nel nostro ecosistema naturale.
+            </p>
+</section>
+<!-- Profile Form -->
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Name Field -->
+<div class="space-y-2">
+<label class="block text-xs font-bold tracking-widest text-secondary uppercase px-4">Nome</label>
+<input class="w-full px-6 py-4 rounded-full bg-surface-container-high border-none text-on-surface focus:ring-2 focus:ring-primary/40 placeholder-outline transition-all duration-300" placeholder="Il tuo nome" type="text" value="Elena"/>
+</div>
+<!-- Surname Field -->
+<div class="space-y-2">
+<label class="block text-xs font-bold tracking-widest text-secondary uppercase px-4">Cognome</label>
+<input class="w-full px-6 py-4 rounded-full bg-surface-container-high border-none text-on-surface focus:ring-2 focus:ring-primary/40 placeholder-outline transition-all duration-300" placeholder="Il tuo cognome" type="text" value="Verdi"/>
+</div>
+</div>
+<!-- Preferred Name -->
+<div class="space-y-2">
+<label class="block text-xs font-bold tracking-widest text-secondary uppercase px-4">Nome preferito</label>
+<input class="w-full px-6 py-4 rounded-full bg-surface-container-high border-none text-on-surface focus:ring-2 focus:ring-primary/40 placeholder-outline transition-all duration-300" placeholder="Come preferisci essere chiamat*?" type="text" value="Ele"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Pronouns -->
+<div class="space-y-2">
+<label class="block text-xs font-bold tracking-widest text-secondary uppercase px-4">Pronomi</label>
+<div class="relative">
+<select class="w-full px-6 py-4 rounded-full bg-surface-container-high border-none text-on-surface focus:ring-2 focus:ring-primary/40 appearance-none transition-all duration-300">
+<option>Lei/Essa</option>
+<option>Lui/Esso</option>
+<option>Loro/Essi</option>
+<option>Altro / Preferisco non specificare</option>
+</select>
+<span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-secondary">expand_more</span>
+</div>
+</div>
+<!-- Date of Birth -->
+<div class="space-y-2">
+<label class="block text-xs font-bold tracking-widest text-secondary uppercase px-4">Data di nascita</label>
+<input class="w-full px-6 py-4 rounded-full bg-surface-container-high border-none text-on-surface focus:ring-2 focus:ring-primary/40 transition-all duration-300" type="date" value="1992-05-14"/>
+</div>
+</div>
+<!-- Legal Gender -->
+<div class="space-y-2">
+<label class="block text-xs font-bold tracking-widest text-secondary uppercase px-4">Genere legale</label>
+<div class="flex flex-wrap gap-3 p-2">
+<label class="flex-1 min-w-[120px]">
+<input checked="" class="hidden peer" name="gender" type="radio"/>
+<div class="flex items-center justify-center px-4 py-3 rounded-xl bg-surface-container-low border border-transparent peer-checked:bg-primary-container peer-checked:text-on-primary text-secondary cursor-pointer transition-all duration-300">
+<span>Femminile</span>
+</div>
+</label>
+<label class="flex-1 min-w-[120px]">
+<input class="hidden peer" name="gender" type="radio"/>
+<div class="flex items-center justify-center px-4 py-3 rounded-xl bg-surface-container-low border border-transparent peer-checked:bg-primary-container peer-checked:text-on-primary text-secondary cursor-pointer transition-all duration-300">
+<span>Maschile</span>
+</div>
+</label>
+<label class="flex-1 min-w-[120px]">
+<input class="hidden peer" name="gender" type="radio"/>
+<div class="flex items-center justify-center px-4 py-3 rounded-xl bg-surface-container-low border border-transparent peer-checked:bg-primary-container peer-checked:text-on-primary text-secondary cursor-pointer transition-all duration-300">
+<span>Altro</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Aesthetic Divider -->
+<!-- Action Button -->
+<div class="pt-4">
+<button class="w-full bg-primary text-on-primary font-bold py-5 rounded-xl shadow-lg shadow-primary/10 hover:bg-primary-container hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 tracking-wide" type="submit">
+                    Salva le modifiche
+                </button>
+</div>
+</form>
+<!-- Secondary Information Card -->
+<!-- Bottom Spacer -->
+<div class="h-12"></div>
+</main>
+</body></html>

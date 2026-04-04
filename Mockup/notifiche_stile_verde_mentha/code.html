@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="light" lang="it"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifiche - Botanical Editorial</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Font: Manrope -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#a9d0aa",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-container-high": "#ebe8e3",
+              "on-background": "#1c1c19",
+              "surface-container": "#f0ede9",
+              "surface": "#fcf9f4",
+              "primary-container": "#3a5c3e",
+              "inverse-on-surface": "#f3f0eb",
+              "on-secondary-container": "#516a56",
+              "on-error-container": "#93000a",
+              "surface-bright": "#fcf9f4",
+              "primary": "#234428",
+              "on-tertiary-container": "#b4cfc4",
+              "tertiary-container": "#415950",
+              "secondary-fixed-dim": "#b2cdb5",
+              "on-secondary-fixed": "#092011",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e5e2dd",
+              "inverse-primary": "#a9d0aa",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed-variant": "#334c43",
+              "secondary-fixed": "#ceead0",
+              "secondary": "#4c6450",
+              "on-primary-container": "#acd3ad",
+              "on-error": "#ffffff",
+              "surface-container-low": "#f6f3ee",
+              "surface-dim": "#dcdad5",
+              "background": "#fcf9f4",
+              "on-primary-fixed-variant": "#2c4e31",
+              "on-surface-variant": "#424842",
+              "tertiary-fixed": "#cde9dd",
+              "on-surface": "#1c1c19",
+              "on-primary-fixed": "#002109",
+              "error-container": "#ffdad6",
+              "primary-fixed": "#c5edc5",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed": "#072019",
+              "tertiary": "#2a423a",
+              "surface-container-highest": "#e5e2dd",
+              "surface-tint": "#446647",
+              "secondary-container": "#ceead0",
+              "outline": "#737971",
+              "outline-variant": "#c2c8bf",
+              "tertiary-fixed-dim": "#b1cdc1",
+              "inverse-surface": "#31302d",
+              "on-secondary-fixed-variant": "#344c3a"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        -webkit-tap-highlight-color: transparent;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen">
+<!-- TopAppBar - Executed from Shared Components JSON -->
+<header class="sticky top-0 z-50 bg-[#fcf9f4] dark:bg-stone-950 flex items-center justify-between w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="p-2 -ml-2 hover:bg-[#f0ede9]/50 dark:hover:bg-stone-800 transition-colors rounded-full text-[#234428] dark:text-[#3a5c3e] scale-95 active:opacity-80 transition-all">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold font-manrope tracking-tight text-[#234428] dark:text-[#fcf9f4]">Notifiche</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-[#f0ede9]/50 dark:hover:bg-stone-800 transition-colors rounded-full text-[#424842] dark:text-stone-400">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="max-w-2xl mx-auto px-6 pb-20">
+<!-- Section: 13 giorni fa -->
+<section class="mt-8">
+<h2 class="text-sm font-bold uppercase tracking-[0.05em] text-secondary mb-4 opacity-70">13 giorni fa</h2>
+<div class="space-y-4">
+<!-- Notification Item 1 -->
+<div class="flex gap-4 p-4 bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(35,68,40,0.03)] hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-primary leading-tight">Il tuo orario di lavoro è stato pubblicato</h3>
+</div>
+<p class="text-on-surface-variant text-sm mt-1 leading-relaxed">
+                            È stato pubblicato il tuo orario di lavoro per il periodo dal 27/04/2026 al 03/05/2026.
+                        </p>
+<p class="text-xs text-outline mt-3 flex items-center gap-1">
+                            Notifica • mar 16, 10:06
+                        </p>
+</div>
+</div>
+<!-- Notification Item 2 -->
+<div class="flex gap-4 p-4 bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(35,68,40,0.03)] hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-primary leading-tight">Comunicazione dal Capo</h3>
+</div>
+<p class="text-on-surface-variant text-sm mt-1 leading-relaxed">
+                            Gentile collaboratore, si prega di prendere visione delle nuove direttive sulla sicurezza in vigore da lunedì.
+                        </p>
+<p class="text-xs text-outline mt-3 flex items-center gap-1">
+                            Notifica • lun 15, 14:22
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Mese scorso -->
+<section class="mt-10">
+<h2 class="text-sm font-bold uppercase tracking-[0.05em] text-secondary mb-4 opacity-70">Mese scorso</h2>
+<div class="space-y-4">
+<!-- Notification Item 3 -->
+<div class="flex gap-4 p-4 bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(35,68,40,0.03)] hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-primary leading-tight">Approvazione ferie</h3>
+</div>
+<p class="text-on-surface-variant text-sm mt-1 leading-relaxed">
+                            La tua richiesta per il periodo 10/04/2026 - 15/04/2026 è stata approvata.
+                        </p>
+<p class="text-xs text-outline mt-3 flex items-center gap-1">
+                            Notifica • mer 2, 09:15
+                        </p>
+</div>
+</div>
+<!-- Notification Item 4 -->
+<div class="flex gap-4 p-4 bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(35,68,40,0.03)] hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-primary leading-tight">Nuovo turno disponibile</h3>
+</div>
+<p class="text-on-surface-variant text-sm mt-1 leading-relaxed">
+                            È disponibile un turno extra per sabato sera. Clicca per candidarti.
+                        </p>
+<p class="text-xs text-outline mt-3 flex items-center gap-1">
+                            Notifica • sab 29, 18:30
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Decorative Botanical Accent (Bottom) -->
+<div class="mt-20 flex justify-center opacity-10 pointer-events-none">
+<div class="w-32 h-32 bg-primary rounded-full filter blur-3xl"></div>
+</div>
+</main>
+<!-- Visual Polish: Subtle Background Gradients -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
+<div class="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 bg-secondary-container/10 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 bg-tertiary-container/5 rounded-full blur-[120px]"></div>
+</div>
+</body></html>
