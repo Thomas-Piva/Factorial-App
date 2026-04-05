@@ -116,10 +116,18 @@ describe('useStores', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useMyStores } from '@/lib/queries/stores'
+import type { StoreWithMembership } from '@/lib/queries/stores'
+
+const store1WithMembership: StoreWithMembership = { ...store1, is_primary: true }
 
 describe('useMyStores', () => {
-  it('returns stores the user belongs to', async () => {
-    mockOrder.mockResolvedValueOnce({ data: [store1], error: null })
+  it('returns stores the user belongs to (with is_primary)', async () => {
+    // New implementation: from('store_membership').select(...).eq(...)
+    // The chain ends at eq() → mockEq resolves directly
+    mockEq.mockResolvedValueOnce({
+      data: [{ is_primary: true, store: store1 }],
+      error: null,
+    })
 
     const { result } = renderHook(
       () => useMyStores('u-1'),
@@ -127,11 +135,11 @@ describe('useMyStores', () => {
     )
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true))
-    expect(result.current.data).toEqual([store1])
+    expect(result.current.data).toEqual([store1WithMembership])
   })
 
   it('is in loading state initially', () => {
-    mockOrder.mockReturnValueOnce(new Promise(() => {}))
+    mockEq.mockReturnValueOnce(new Promise(() => {}))
 
     const { result } = renderHook(
       () => useMyStores('u-1'),
@@ -152,7 +160,7 @@ describe('useMyStores', () => {
   })
 
   it('sets isError when Supabase returns an error', async () => {
-    mockOrder.mockResolvedValueOnce({
+    mockEq.mockResolvedValueOnce({
       data: null,
       error: { message: 'forbidden' },
     })
@@ -166,7 +174,7 @@ describe('useMyStores', () => {
   })
 
   it('returns empty array when user has no store memberships', async () => {
-    mockOrder.mockResolvedValueOnce({ data: [], error: null })
+    mockEq.mockResolvedValueOnce({ data: [], error: null })
 
     const { result } = renderHook(
       () => useMyStores('u-new'),

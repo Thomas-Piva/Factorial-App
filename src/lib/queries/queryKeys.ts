@@ -9,6 +9,10 @@ export const queryKeys = {
     todayForUser: (userId: string, storeId: string) =>
       ['shifts', 'today', userId, storeId] as const,
   },
+  absences: {
+    byStoreMonth: (storeId: string, month: string) =>
+      ['absences', storeId, month] as const,
+  },
   templates: {
     all: ['templates'] as const,
     byStore: (storeId: string) => ['templates', storeId] as const,
