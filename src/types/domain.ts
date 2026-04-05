@@ -1,10 +1,4 @@
-import type {
-  ShiftAssignment,
-  ShiftTemplate,
-  Store,
-  StoreMembership,
-  User,
-} from "./database";
+import type { ShiftAssignment, User } from "./database";
 
 // ShiftAssignment with potentially multiple blocks on the same date (orari spezzati)
 export interface ShiftBlock {
@@ -41,12 +35,6 @@ export type UserWithInitials = User & {
   displayName: string;
 };
 
-// User enriched with their primary store
-export type UserWithPrimaryStore = UserWithInitials & {
-  primaryStore: Store | null;
-  memberships: StoreMembership[];
-};
-
 // Week range for the shift grid navigator
 export interface WeekRange {
   start: Date;
@@ -60,28 +48,4 @@ export interface MonthRange {
   year: number;
   month: number; // 0-indexed
   label: string; // "Ottobre 2024"
-}
-
-// Shift template with its store
-export type ShiftTemplateWithStore = ShiftTemplate & {
-  store: Pick<Store, "id" | "name" | "code">;
-};
-
-// Data passed to PDF generation
-export interface PdfExportPayload {
-  employee: User;
-  assignments: ShiftAssignment[];
-  dateRange: { start: Date; end: Date };
-  storeName: string;
-}
-
-// Absence request input (used for range insert)
-export interface AbsenceRangeInput {
-  userId: string;
-  storeId: string;
-  shiftType: Exclude<ShiftAssignment["shift_type"], "work_shift">;
-  label: string;
-  color: string;
-  startDate: string; // ISO date
-  endDate: string; // ISO date
 }

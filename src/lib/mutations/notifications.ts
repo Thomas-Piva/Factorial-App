@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/client";
 import { queryKeys } from "@/lib/queries/queryKeys";
 import type { Database, Notification } from "@/types/database";
 
-export type CreateNotificationInput =
+type CreateNotificationInput =
   Database["public"]["Tables"]["notification"]["Insert"];
 
 // ── useMarkAsRead ─────────────────────────────────────────────────────────────

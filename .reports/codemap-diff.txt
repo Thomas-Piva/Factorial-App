@@ -1,0 +1,24 @@
+Codemap Generation Report — 2026-04-05
+======================================
+
+Status: INITIAL GENERATION (no previous codemaps found)
+
+Files Scanned: 62 source files (excluding __tests__)
+Files Generated:
+  + docs/CODEMAPS/architecture.md
+  + docs/CODEMAPS/frontend.md
+  + docs/CODEMAPS/data.md
+  + docs/CODEMAPS/dependencies.md
+
+Key Findings:
+  - Single Next.js 15 App Router app, no backend API routes
+  - 8 main pages + login, all static (SSG) except middleware
+  - 6 DB tables: store, user, store_membership, shift_template, shift_assignment, notification
+  - 4 mutation modules, 5 query modules, 4 hooks
+  - PWA with Serwist service worker
+  - TanStack Query v5 for all server state
+  - E2E suite: 31 Playwright tests (Chromium)
+  - Security: AgentShield 100/100
+
+Architecture Changes Since Last Scan: N/A (first run)
+Staleness Warnings: None

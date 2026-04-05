@@ -5,7 +5,7 @@ import { queryKeys } from "./queryKeys";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-export type AbsenceWithUser = ShiftAssignment & {
+type AbsenceWithUser = ShiftAssignment & {
   // PostgREST join can return null when the foreign-key target row is missing
   user: Pick<User, "id" | "first_name" | "last_name" | "preferred_name"> | null;
 };

@@ -1,52 +1,204 @@
 -- =============================================================================
--- Seed: development data for Factorial App
+-- Seed: dati di sviluppo per Factorial App
 -- =============================================================================
--- This file is loaded by `supabase db reset` after all migrations.
--- It is ONLY for local development / CI; never run against production.
+-- Questo file viene caricato da `supabase db reset` dopo tutte le migrazioni.
+-- È SOLO per sviluppo locale / CI; non eseguire mai in produzione.
 --
--- Execution order mirrors FK dependencies:
---   auth.users -> user -> store -> store_membership
+-- Ordine di esecuzione (rispetta le dipendenze FK):
+--   auth.users -> auth.identities -> user -> store -> store_membership
 --   -> shift_template -> shift_assignment -> notification
 -- =============================================================================
 
 -- ---------------------------------------------------------------------------
--- Disable the role-protection trigger during seeding so we can set roles
--- directly without going through manager-auth dance.
+-- Disabilita il trigger di protezione del ruolo durante il seeding,
+-- così possiamo impostare i ruoli direttamente senza passare per il flusso
+-- di autenticazione del manager.
 -- ---------------------------------------------------------------------------
 ALTER TABLE "user" DISABLE TRIGGER trg_user_protect_role;
 
--- ---------------------------------------------------------------------------
--- auth.users
--- Insert stub auth rows.  Supabase local dev accepts direct inserts here.
--- Passwords are irrelevant for seed data; use the Supabase Studio UI or
--- `supabase auth` CLI to log in during development.
--- ---------------------------------------------------------------------------
-INSERT INTO auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at)
+-- ===========================================================================
+-- SEZIONE 1: auth.users
+-- Inserisce le righe stub nella tabella di autenticazione di Supabase.
+-- Le password vengono hashate con bcrypt (compatibile con GoTrue).
+-- email_confirmed_at è impostato a now() per considerare l'email verificata.
+-- ===========================================================================
+INSERT INTO auth.users (
+  id,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  raw_app_meta_data,
+  raw_user_meta_data,
+  is_super_admin,
+  created_at,
+  updated_at,
+  aud,
+  role
+)
 VALUES
-  -- Manager
+  -- -------------------------------------------------------------------------
+  -- Utente di test generico: test@example.com / password123
+  -- UUID deterministico: 00000000-0000-0000-0000-000000000000
+  -- -------------------------------------------------------------------------
+  ('00000000-0000-0000-0000-000000000000',
+   'test@example.com',
+   crypt('password123', gen_salt('bf')),
+   now(),
+   '{"provider": "email", "providers": ["email"]}',
+   '{}',
+   false,
+   now(), now(),
+   'authenticated',
+   'authenticated'),
+
+  -- -------------------------------------------------------------------------
+  -- Manager: Marco Rossi
+  -- -------------------------------------------------------------------------
   ('00000000-0000-0000-0000-000000000001',
    'marco.rossi@factorial.test',
    crypt('Dev1234!', gen_salt('bf')),
-   now(), now(), now()),
+   now(),
+   '{"provider": "email", "providers": ["email"]}',
+   '{}',
+   false,
+   now(), now(),
+   'authenticated',
+   'authenticated'),
 
-  -- Employees
+  -- -------------------------------------------------------------------------
+  -- Dipendente: Giulia Bianchi
+  -- -------------------------------------------------------------------------
   ('00000000-0000-0000-0000-000000000002',
    'giulia.bianchi@factorial.test',
    crypt('Dev1234!', gen_salt('bf')),
-   now(), now(), now()),
+   now(),
+   '{"provider": "email", "providers": ["email"]}',
+   '{}',
+   false,
+   now(), now(),
+   'authenticated',
+   'authenticated'),
 
+  -- -------------------------------------------------------------------------
+  -- Dipendente: Luca Ferrari
+  -- -------------------------------------------------------------------------
   ('00000000-0000-0000-0000-000000000003',
    'luca.ferrari@factorial.test',
    crypt('Dev1234!', gen_salt('bf')),
-   now(), now(), now())
+   now(),
+   '{"provider": "email", "providers": ["email"]}',
+   '{}',
+   false,
+   now(), now(),
+   'authenticated',
+   'authenticated')
 
 ON CONFLICT (id) DO NOTHING;
 
--- ---------------------------------------------------------------------------
--- user (application profiles)
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+-- SEZIONE 2: auth.identities
+-- Obbligatoria per far funzionare signInWithPassword con il provider "email".
+-- Senza questa riga, GoTrue non trova l'identità e il login fallisce.
+--
+-- Campi chiave:
+--   provider_id  = l'email dell'utente (identificatore univoco per "email")
+--   provider     = 'email'
+--   identity_data = JSON con sub (= user id) e la email
+--   user_id      = riferimento a auth.users.id
+-- ===========================================================================
+INSERT INTO auth.identities (
+  id,
+  user_id,
+  provider_id,
+  provider,
+  identity_data,
+  last_sign_in_at,
+  created_at,
+  updated_at
+)
+VALUES
+  -- -------------------------------------------------------------------------
+  -- Identità email per test@example.com
+  -- -------------------------------------------------------------------------
+  ('00000000-0000-0000-0000-000000000000',
+   '00000000-0000-0000-0000-000000000000',
+   'test@example.com',
+   'email',
+   jsonb_build_object(
+     'sub',           '00000000-0000-0000-0000-000000000000',
+     'email',         'test@example.com',
+     'email_verified', true,
+     'phone_verified', false
+   ),
+   now(), now(), now()),
+
+  -- -------------------------------------------------------------------------
+  -- Identità email per marco.rossi@factorial.test
+  -- -------------------------------------------------------------------------
+  ('00000000-0000-0000-0000-000000000001',
+   '00000000-0000-0000-0000-000000000001',
+   'marco.rossi@factorial.test',
+   'email',
+   jsonb_build_object(
+     'sub',           '00000000-0000-0000-0000-000000000001',
+     'email',         'marco.rossi@factorial.test',
+     'email_verified', true,
+     'phone_verified', false
+   ),
+   now(), now(), now()),
+
+  -- -------------------------------------------------------------------------
+  -- Identità email per giulia.bianchi@factorial.test
+  -- -------------------------------------------------------------------------
+  ('00000000-0000-0000-0000-000000000002',
+   '00000000-0000-0000-0000-000000000002',
+   'giulia.bianchi@factorial.test',
+   'email',
+   jsonb_build_object(
+     'sub',           '00000000-0000-0000-0000-000000000002',
+     'email',         'giulia.bianchi@factorial.test',
+     'email_verified', true,
+     'phone_verified', false
+   ),
+   now(), now(), now()),
+
+  -- -------------------------------------------------------------------------
+  -- Identità email per luca.ferrari@factorial.test
+  -- -------------------------------------------------------------------------
+  ('00000000-0000-0000-0000-000000000003',
+   '00000000-0000-0000-0000-000000000003',
+   'luca.ferrari@factorial.test',
+   'email',
+   jsonb_build_object(
+     'sub',           '00000000-0000-0000-0000-000000000003',
+     'email',         'luca.ferrari@factorial.test',
+     'email_verified', true,
+     'phone_verified', false
+   ),
+   now(), now(), now())
+
+ON CONFLICT (provider, provider_id) DO NOTHING;
+
+-- ===========================================================================
+-- SEZIONE 3: public.user (profili applicativi)
+-- Ogni riga è collegata 1-a-1 con auth.users tramite lo stesso UUID.
+-- ===========================================================================
 INSERT INTO "user" (id, email, first_name, last_name, role, admission_date, is_active)
 VALUES
+  -- -------------------------------------------------------------------------
+  -- Profilo per l'utente di test generico
+  -- Ruolo 'employee' di default; modificabile dal manager dopo il login.
+  -- -------------------------------------------------------------------------
+  ('00000000-0000-0000-0000-000000000000',
+   'test@example.com',
+   'Test', 'User',
+   'employee',
+   '2026-01-01',
+   true),
+
+  -- -------------------------------------------------------------------------
+  -- Profilo Manager
+  -- -------------------------------------------------------------------------
   ('00000000-0000-0000-0000-000000000001',
    'marco.rossi@factorial.test',
    'Marco', 'Rossi',
@@ -54,6 +206,9 @@ VALUES
    '2020-01-15',
    true),
 
+  -- -------------------------------------------------------------------------
+  -- Profilo Dipendente 1
+  -- -------------------------------------------------------------------------
   ('00000000-0000-0000-0000-000000000002',
    'giulia.bianchi@factorial.test',
    'Giulia', 'Bianchi',
@@ -61,6 +216,9 @@ VALUES
    '2021-06-01',
    true),
 
+  -- -------------------------------------------------------------------------
+  -- Profilo Dipendente 2
+  -- -------------------------------------------------------------------------
   ('00000000-0000-0000-0000-000000000003',
    'luca.ferrari@factorial.test',
    'Luca', 'Ferrari',
@@ -70,9 +228,9 @@ VALUES
 
 ON CONFLICT (id) DO NOTHING;
 
--- ---------------------------------------------------------------------------
--- store
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+-- SEZIONE 4: store (punti vendita)
+-- ===========================================================================
 INSERT INTO store (id, name, code, address, city, phone, is_active)
 VALUES
   ('10000000-0000-0000-0000-000000000001',
@@ -93,31 +251,35 @@ VALUES
 
 ON CONFLICT (id) DO NOTHING;
 
--- ---------------------------------------------------------------------------
--- store_membership
--- Marco (manager) belongs to both stores.
--- Giulia and Luca belong to MIL01 as primary.
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+-- SEZIONE 5: store_membership
+-- Assegna gli utenti ai punti vendita.
+-- Marco (manager) appartiene a entrambi i negozi.
+-- Giulia, Luca e Test User appartengono a MIL01 come negozio primario.
+-- ===========================================================================
 INSERT INTO store_membership (user_id, store_id, is_primary)
 VALUES
-  -- Marco: primary MIL01, secondary ROM01
+  -- Test User: primario MIL01
+  ('00000000-0000-0000-0000-000000000000', '10000000-0000-0000-0000-000000000001', true),
+
+  -- Marco: primario MIL01, secondario ROM01
   ('00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', true),
   ('00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000002', false),
 
-  -- Giulia: primary MIL01
+  -- Giulia: primario MIL01
   ('00000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000001', true),
 
-  -- Luca: primary MIL01
+  -- Luca: primario MIL01
   ('00000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000001', true)
 
 ON CONFLICT (user_id, store_id) DO NOTHING;
 
--- ---------------------------------------------------------------------------
--- shift_template (MIL01)
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+-- SEZIONE 6: shift_template (modelli turno per MIL01)
+-- ===========================================================================
 INSERT INTO shift_template (id, store_id, created_by, name, shift_type, start_time, end_time, color, is_active)
 VALUES
-  -- Morning shift
+  -- Turno mattina
   ('20000000-0000-0000-0000-000000000001',
    '10000000-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000001',
@@ -125,7 +287,7 @@ VALUES
    '08:00', '14:00',
    '#4CAF50', true),
 
-  -- Afternoon shift
+  -- Turno pomeriggio
   ('20000000-0000-0000-0000-000000000002',
    '10000000-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000001',
@@ -133,7 +295,7 @@ VALUES
    '14:00', '20:00',
    '#2196F3', true),
 
-  -- Full day
+  -- Giornata intera
   ('20000000-0000-0000-0000-000000000003',
    '10000000-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000001',
@@ -141,7 +303,7 @@ VALUES
    '09:00', '18:00',
    '#FF9800', true),
 
-  -- Rest day (no times)
+  -- Riposo (nessun orario)
   ('20000000-0000-0000-0000-000000000004',
    '10000000-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000001',
@@ -149,7 +311,7 @@ VALUES
    NULL, NULL,
    '#9E9E9E', true),
 
-  -- Holiday (no times)
+  -- Ferie (nessun orario)
   ('20000000-0000-0000-0000-000000000005',
    '10000000-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000001',
@@ -157,7 +319,7 @@ VALUES
    NULL, NULL,
    '#E91E63', true),
 
-  -- Permission / short leave (no times)
+  -- Permesso (nessun orario)
   ('20000000-0000-0000-0000-000000000006',
    '10000000-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000001',
@@ -167,17 +329,18 @@ VALUES
 
 ON CONFLICT (id) DO NOTHING;
 
--- ---------------------------------------------------------------------------
--- shift_assignment — one published week for Giulia at MIL01
--- Week: 2026-04-06 (Mon) to 2026-04-12 (Sun)
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+-- SEZIONE 7: shift_assignment
+-- Settimana pubblicata per Giulia a MIL01 (06-12 Aprile 2026).
+-- Turno bozza (non pubblicato) per Luca.
+-- ===========================================================================
 INSERT INTO shift_assignment (
   user_id, store_id, template_id, created_by,
   date, shift_type, label, start_time, end_time, color,
   published_at
 )
 VALUES
-  -- Mon: morning
+  -- Lunedì: mattina
   ('00000000-0000-0000-0000-000000000002',
    '10000000-0000-0000-0000-000000000001',
    '20000000-0000-0000-0000-000000000001',
@@ -185,7 +348,7 @@ VALUES
    '2026-04-06', 'work_shift', 'M', '08:00', '14:00', '#4CAF50',
    now()),
 
-  -- Tue: afternoon
+  -- Martedì: pomeriggio
   ('00000000-0000-0000-0000-000000000002',
    '10000000-0000-0000-0000-000000000001',
    '20000000-0000-0000-0000-000000000002',
@@ -193,7 +356,7 @@ VALUES
    '2026-04-07', 'work_shift', 'P', '14:00', '20:00', '#2196F3',
    now()),
 
-  -- Wed: rest day
+  -- Mercoledì: riposo
   ('00000000-0000-0000-0000-000000000002',
    '10000000-0000-0000-0000-000000000001',
    '20000000-0000-0000-0000-000000000004',
@@ -201,7 +364,7 @@ VALUES
    '2026-04-08', 'rest_day', 'R', NULL, NULL, '#9E9E9E',
    now()),
 
-  -- Thu: morning
+  -- Giovedì: mattina
   ('00000000-0000-0000-0000-000000000002',
    '10000000-0000-0000-0000-000000000001',
    '20000000-0000-0000-0000-000000000001',
@@ -209,7 +372,7 @@ VALUES
    '2026-04-09', 'work_shift', 'M', '08:00', '14:00', '#4CAF50',
    now()),
 
-  -- Fri: full day
+  -- Venerdì: giornata intera
   ('00000000-0000-0000-0000-000000000002',
    '10000000-0000-0000-0000-000000000001',
    '20000000-0000-0000-0000-000000000003',
@@ -217,7 +380,7 @@ VALUES
    '2026-04-10', 'work_shift', 'G', '09:00', '18:00', '#FF9800',
    now()),
 
-  -- Sat: afternoon
+  -- Sabato: pomeriggio
   ('00000000-0000-0000-0000-000000000002',
    '10000000-0000-0000-0000-000000000001',
    '20000000-0000-0000-0000-000000000002',
@@ -225,7 +388,7 @@ VALUES
    '2026-04-11', 'work_shift', 'P', '14:00', '20:00', '#2196F3',
    now()),
 
-  -- Sun: rest day
+  -- Domenica: riposo
   ('00000000-0000-0000-0000-000000000002',
    '10000000-0000-0000-0000-000000000001',
    '20000000-0000-0000-0000-000000000004',
@@ -233,19 +396,19 @@ VALUES
    '2026-04-12', 'rest_day', 'R', NULL, NULL, '#9E9E9E',
    now()),
 
-  -- Draft assignment for Luca (not yet published — visible only to managers)
+  -- Turno bozza per Luca (published_at NULL = non visibile al dipendente)
   ('00000000-0000-0000-0000-000000000003',
    '10000000-0000-0000-0000-000000000001',
    '20000000-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000001',
    '2026-04-07', 'work_shift', 'M', '08:00', '14:00', '#4CAF50',
-   NULL)  -- published_at NULL = draft
+   NULL)
 
 ON CONFLICT DO NOTHING;
 
--- ---------------------------------------------------------------------------
--- notification — sample notifications for Giulia
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+-- SEZIONE 8: notification (notifiche di esempio per Giulia)
+-- ===========================================================================
 INSERT INTO notification (user_id, created_by, type, title, body, is_read)
 VALUES
   ('00000000-0000-0000-0000-000000000002',
@@ -265,6 +428,6 @@ VALUES
 ON CONFLICT DO NOTHING;
 
 -- ---------------------------------------------------------------------------
--- Re-enable the role-protection trigger
+-- Riabilita il trigger di protezione del ruolo
 -- ---------------------------------------------------------------------------
 ALTER TABLE "user" ENABLE TRIGGER trg_user_protect_role;

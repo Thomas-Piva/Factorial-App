@@ -3,20 +3,20 @@ import { createClient } from "@/lib/supabase/client";
 import { queryKeys } from "@/lib/queries/queryKeys";
 import type { Database, ShiftAssignment } from "@/types/database";
 
-export type CreateShiftInput =
+type CreateShiftInput =
   Database["public"]["Tables"]["shift_assignment"]["Insert"];
 
-export type UpdateShiftInput = {
+type UpdateShiftInput = {
   id: string;
 } & Database["public"]["Tables"]["shift_assignment"]["Update"];
 
-export type DeleteShiftInput = {
+type DeleteShiftInput = {
   id: string;
   storeId: string;
   weekStart: string;
 };
 
-export type PublishShiftsInput = { ids: string[] };
+type PublishShiftsInput = { ids: string[] };
 
 // ── useCreateShift ────────────────────────────────────────────────────────────
 

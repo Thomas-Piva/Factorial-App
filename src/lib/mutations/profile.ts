@@ -3,8 +3,9 @@ import { createClient } from "@/lib/supabase/client";
 import { queryKeys } from "@/lib/queries/queryKeys";
 import type { Database } from "@/types/database";
 
-export type UpdateProfileInput =
-  Database["public"]["Tables"]["user"]["Update"] & { id: string };
+type UpdateProfileInput = Database["public"]["Tables"]["user"]["Update"] & {
+  id: string;
+};
 
 // ── useUpdateProfile ──────────────────────────────────────────────────────────
 
@@ -13,7 +14,7 @@ export function useUpdateProfile() {
 
   return useMutation<void, Error, UpdateProfileInput>({
     mutationFn: async ({ id, ...fields }) => {
-      // Exclude role from the fields being updated
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- exclude role from update payload
       const { role: _role, ...safeFields } = fields as typeof fields & {
         role?: unknown;
       };

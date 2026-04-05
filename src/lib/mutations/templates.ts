@@ -3,10 +3,10 @@ import { createClient } from "@/lib/supabase/client";
 import { queryKeys } from "@/lib/queries/queryKeys";
 import type { Database, ShiftTemplate } from "@/types/database";
 
-export type CreateTemplateInput =
+type CreateTemplateInput =
   Database["public"]["Tables"]["shift_template"]["Insert"];
 
-export type UpdateTemplateInput = {
+type UpdateTemplateInput = {
   id: string;
 } & Database["public"]["Tables"]["shift_template"]["Update"];
 
