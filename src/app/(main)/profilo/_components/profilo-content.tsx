@@ -1,54 +1,54 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useCurrentUser } from '@/lib/queries/users'
-import { useUpdateProfile } from '@/lib/mutations/profile'
-import { Avatar } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { useState } from "react";
+import { useCurrentUser } from "@/lib/queries/users";
+import { useUpdateProfile } from "@/lib/mutations/profile";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 // ── Role label map ────────────────────────────────────────────────────────────
 const ROLE_LABELS: Record<string, string> = {
-  employee: 'Dipendente',
-  manager: 'Manager',
-  admin: 'Admin',
-}
+  employee: "Dipendente",
+  manager: "Manager",
+  admin: "Admin",
+};
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function ProfiloContent() {
-  const { data: user, isLoading } = useCurrentUser()
-  const updateProfile = useUpdateProfile()
+  const { data: user, isLoading } = useCurrentUser();
+  const updateProfile = useUpdateProfile();
 
-  const [editing, setEditing] = useState(false)
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [preferredName, setPreferredName] = useState('')
-  const [pronouns, setPronouns] = useState('')
+  const [editing, setEditing] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [preferredName, setPreferredName] = useState("");
+  const [pronouns, setPronouns] = useState("");
 
   function handleEditClick() {
     if (user) {
-      setFirstName(user.first_name)
-      setLastName(user.last_name)
-      setPreferredName(user.preferred_name ?? '')
-      setPronouns(user.pronouns ?? '')
+      setFirstName(user.first_name);
+      setLastName(user.last_name);
+      setPreferredName(user.preferred_name ?? "");
+      setPronouns(user.pronouns ?? "");
     }
-    setEditing(true)
+    setEditing(true);
   }
 
   function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
-    e.preventDefault()
-    if (!user) return
+    e.preventDefault();
+    if (!user) return;
     updateProfile.mutate({
       id: user.id,
       first_name: firstName,
       last_name: lastName,
       preferred_name: preferredName || null,
       pronouns: pronouns || null,
-    })
-    setEditing(false)
+    });
+    setEditing(false);
   }
 
   return (
@@ -148,5 +148,5 @@ export default function ProfiloContent() {
         </>
       ) : null}
     </div>
-  )
+  );
 }

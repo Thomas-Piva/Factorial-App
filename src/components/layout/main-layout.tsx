@@ -1,8 +1,8 @@
-import React from 'react'
-import BottomNav from '@/components/layout/bottom-nav'
+import React from "react";
+import BottomNav from "@/components/layout/bottom-nav";
 
 interface MainLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
@@ -11,5 +11,5 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <main className="min-h-screen bg-surface pb-20">{children}</main>
       <BottomNav />
     </>
-  )
+  );
 }

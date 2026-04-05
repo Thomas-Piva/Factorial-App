@@ -1,57 +1,66 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { EmptyState } from '@/components/ui/empty-state'
-import { ShiftBlock } from '@/components/ui/shift-block'
-import { useCurrentUser } from '@/lib/queries/users'
-import { useUsers } from '@/lib/queries/users'
-import { useMyStores } from '@/lib/queries/stores'
-import { useShiftsByStoreWeek } from '@/lib/queries/shifts'
-import { buildShiftGrid } from '@/lib/utils/shift-grid'
-import { getWeekRange, addDays, toISODate, eachDayOfInterval } from '@/lib/utils/date'
-import { exportShiftsPdf } from '@/lib/utils/export-pdf'
+import { useState } from "react";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { EmptyState } from "@/components/ui/empty-state";
+import { ShiftBlock } from "@/components/ui/shift-block";
+import { useCurrentUser } from "@/lib/queries/users";
+import { useUsers } from "@/lib/queries/users";
+import { useMyStores } from "@/lib/queries/stores";
+import { useShiftsByStoreWeek } from "@/lib/queries/shifts";
+import { buildShiftGrid } from "@/lib/utils/shift-grid";
+import {
+  getWeekRange,
+  addDays,
+  toISODate,
+  eachDayOfInterval,
+} from "@/lib/utils/date";
+import { exportShiftsPdf } from "@/lib/utils/export-pdf";
 
 // ── Day-of-week short labels (Mon-first) ──────────────────────────────────────
-const DAY_LABELS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
+const DAY_LABELS = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function TurniContent() {
-  const today = new Date()
+  const today = new Date();
 
-  const [weekStart, setWeekStart] = useState<Date>(() => getWeekRange(today).start)
+  const [weekStart, setWeekStart] = useState<Date>(
+    () => getWeekRange(today).start,
+  );
 
-  const weekRange = getWeekRange(weekStart)
-  const weekStartISO = toISODate(weekStart)
+  const weekRange = getWeekRange(weekStart);
+  const weekStartISO = toISODate(weekStart);
 
   // Week days (7 days from Monday)
-  const weekDays = eachDayOfInterval(weekRange.start, weekRange.end).map(toISODate)
+  const weekDays = eachDayOfInterval(weekRange.start, weekRange.end).map(
+    toISODate,
+  );
 
   // ── Navigation ──────────────────────────────────────────────────────────────
   function goToPrevWeek() {
-    setWeekStart((prev) => addDays(prev, -7))
+    setWeekStart((prev) => addDays(prev, -7));
   }
 
   function goToNextWeek() {
-    setWeekStart((prev) => addDays(prev, 7))
+    setWeekStart((prev) => addDays(prev, 7));
   }
 
   // ── Data queries ────────────────────────────────────────────────────────────
-  const { data: currentUser } = useCurrentUser()
-  const { data: stores = [] } = useMyStores(currentUser?.id)
+  const { data: currentUser } = useCurrentUser();
+  const { data: stores = [] } = useMyStores(currentUser?.id);
   const storeId: string | undefined =
-    stores.find((s) => s.is_primary)?.id ?? stores[0]?.id
+    stores.find((s) => s.is_primary)?.id ?? stores[0]?.id;
 
   const { data: assignments = [], isLoading: assignmentsLoading } =
-    useShiftsByStoreWeek(storeId, weekStartISO)
+    useShiftsByStoreWeek(storeId, weekStartISO);
 
-  const { data: users = [], isLoading: usersLoading } = useUsers()
+  const { data: users = [], isLoading: usersLoading } = useUsers();
 
-  const isLoading = assignmentsLoading || usersLoading
+  const isLoading = assignmentsLoading || usersLoading;
 
   // ── Build grid ──────────────────────────────────────────────────────────────
-  const gridRows = buildShiftGrid(assignments, users)
+  const gridRows = buildShiftGrid(assignments, users);
 
   return (
     <div data-testid="turni-page" className="px-4 pt-8 pb-6">
@@ -91,7 +100,10 @@ export default function TurniContent() {
         <LoadingSpinner />
       ) : gridRows.length === 0 ? (
         <div data-testid="turni-empty">
-          <EmptyState icon="calendar_month" title="Nessun turno questa settimana" />
+          <EmptyState
+            icon="calendar_month"
+            title="Nessun turno questa settimana"
+          />
         </div>
       ) : (
         <div data-testid="turni-grid" className="overflow-x-auto">
@@ -101,30 +113,34 @@ export default function TurniContent() {
               data-testid="export-pdf-btn"
               onClick={() => {
                 const dayLabels = DAY_LABELS.map((label, i) => {
-                  const dateISO = weekDays[i]
-                  const dayNum = new Date(dateISO).getDate()
-                  return `${label} ${dayNum}`
-                })
+                  const dateISO = weekDays[i];
+                  const dayNum = new Date(dateISO).getDate();
+                  return `${label} ${dayNum}`;
+                });
                 const rows = gridRows.map((row) => {
-                  const exportRow: { userName: string; [key: string]: string } = {
-                    userName: row.user.displayName,
-                  }
+                  const exportRow: { userName: string; [key: string]: string } =
+                    {
+                      userName: row.user.displayName,
+                    };
                   for (const dateISO of weekDays) {
-                    const cell = row.cells[dateISO]
-                    exportRow[dateISO] = cell?.blocks.map((b) => b.label).join(', ') ?? ''
+                    const cell = row.cells[dateISO];
+                    exportRow[dateISO] =
+                      cell?.blocks.map((b) => b.label).join(", ") ?? "";
                   }
-                  return exportRow
-                })
+                  return exportRow;
+                });
                 exportShiftsPdf({
                   weekLabel: weekRange.label,
                   days: weekDays,
                   dayLabels,
                   rows,
-                })
+                });
               }}
               className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container text-on-surface text-sm font-medium hover:bg-surface-container-high transition-colors"
             >
-              <span className="material-symbols-outlined text-base">picture_as_pdf</span>
+              <span className="material-symbols-outlined text-base">
+                picture_as_pdf
+              </span>
               Esporta PDF
             </button>
           </div>
@@ -133,8 +149,8 @@ export default function TurniContent() {
             <div className="grid grid-cols-[140px_repeat(7,1fr)] gap-1 mb-2">
               <div /> {/* empty header for user name column */}
               {DAY_LABELS.map((label, i) => {
-                const dateISO = weekDays[i]
-                const dayNum = new Date(dateISO).getDate()
+                const dateISO = weekDays[i];
+                const dayNum = new Date(dateISO).getDate();
                 return (
                   <div
                     key={label}
@@ -142,7 +158,7 @@ export default function TurniContent() {
                   >
                     {label} {dayNum}
                   </div>
-                )
+                );
               })}
             </div>
 
@@ -161,9 +177,12 @@ export default function TurniContent() {
 
                 {/* Day cells */}
                 {weekDays.map((dateISO) => {
-                  const cell = row.cells[dateISO]
+                  const cell = row.cells[dateISO];
                   return (
-                    <div key={dateISO} className="min-h-[48px] flex flex-col gap-1 p-0.5">
+                    <div
+                      key={dateISO}
+                      className="min-h-[48px] flex flex-col gap-1 p-0.5"
+                    >
                       {cell?.blocks.map((block) => (
                         <ShiftBlock
                           key={block.id}
@@ -175,7 +194,7 @@ export default function TurniContent() {
                         />
                       ))}
                     </div>
-                  )
+                  );
                 })}
               </div>
             ))}
@@ -183,5 +202,5 @@ export default function TurniContent() {
         </div>
       )}
     </div>
-  )
+  );
 }

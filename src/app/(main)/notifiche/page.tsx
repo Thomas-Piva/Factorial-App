@@ -1,5 +1,5 @@
-import NotificheContent from './_components/notifiche-content'
+import NotificheContent from "./_components/notifiche-content";
 
 export default function NotifichePage() {
-  return <NotificheContent />
+  return <NotificheContent />;
 }

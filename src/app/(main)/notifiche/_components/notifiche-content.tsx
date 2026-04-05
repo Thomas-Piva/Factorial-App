@@ -1,42 +1,45 @@
-'use client'
+"use client";
 
-import { useCurrentUser } from '@/lib/queries/users'
-import { useNotifications } from '@/lib/queries/notifications'
-import { useMarkAsRead, useMarkAllAsRead } from '@/lib/mutations/notifications'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { EmptyState } from '@/components/ui/empty-state'
-import type { Notification } from '@/types/database'
+import { useCurrentUser } from "@/lib/queries/users";
+import { useNotifications } from "@/lib/queries/notifications";
+import { useMarkAsRead, useMarkAllAsRead } from "@/lib/mutations/notifications";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { EmptyState } from "@/components/ui/empty-state";
+import type { Notification } from "@/types/database";
 
 // ── Format date as DD/MM/YYYY ─────────────────────────────────────────────────
 function formatDate(iso: string): string {
-  const [year, month, day] = iso.split('T')[0].split('-')
-  return `${day}/${month}/${year}`
+  const [year, month, day] = iso.split("T")[0].split("-");
+  return `${day}/${month}/${year}`;
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function NotificheContent() {
-  const { data: user } = useCurrentUser()
-  const { data: notifications = [], isLoading } = useNotifications(user?.id)
-  const markAsRead = useMarkAsRead()
-  const markAllAsRead = useMarkAllAsRead()
+  const { data: user } = useCurrentUser();
+  const { data: notifications = [], isLoading } = useNotifications(user?.id);
+  const markAsRead = useMarkAsRead();
+  const markAllAsRead = useMarkAllAsRead();
 
-  const unreadCount = notifications.filter((n) => !n.is_read).length
+  const unreadCount = notifications.filter((n) => !n.is_read).length;
 
   function handleNotificationClick(notification: Notification) {
     if (!notification.is_read) {
-      markAsRead.mutate({ id: notification.id })
+      markAsRead.mutate({ id: notification.id });
     }
   }
 
   function handleMarkAllRead() {
     if (user) {
-      markAllAsRead.mutate({ userId: user.id })
+      markAllAsRead.mutate({ userId: user.id });
     }
   }
 
   return (
-    <div data-testid="notifiche-page" className="px-6 pt-8 pb-6 max-w-lg mx-auto">
+    <div
+      data-testid="notifiche-page"
+      className="px-6 pt-8 pb-6 max-w-lg mx-auto"
+    >
       {/* Header row */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-extrabold text-primary tracking-tighter">
@@ -75,7 +78,9 @@ export default function NotificheContent() {
                   <span className="mt-1.5 w-2 h-2 rounded-full bg-primary shrink-0" />
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm text-on-surface${!notification.is_read ? ' font-bold' : ''}`}>
+                  <p
+                    className={`text-sm text-on-surface${!notification.is_read ? " font-bold" : ""}`}
+                  >
                     {notification.title}
                   </p>
                   <p className="text-xs text-on-surface-variant mt-0.5">
@@ -91,5 +96,5 @@ export default function NotificheContent() {
         </ul>
       )}
     </div>
-  )
+  );
 }

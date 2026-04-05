@@ -25,6 +25,17 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c 'import subprocess,json,os; files=[f for f in subprocess.getoutput(\"git diff --name-only HEAD 2>/dev/null\").split(\"\\n\") if f.endswith((\".ts\",\".tsx\",\".js\",\".jsx\")) and os.path.exists(f)]; msgs=[\"console.log in \"+f for f in files if \"console.log\" in open(f).read()]; print(json.dumps({\"systemMessage\":\"WARNING: \"+\"; \".join(msgs)})) if msgs else None'",
+            "statusMessage": "Checking for console.log in modified files..."
+          }
+        ]
+      }
     ]
   }
 }

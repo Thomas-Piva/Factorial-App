@@ -1,37 +1,37 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { EmptyState } from '@/components/ui/empty-state'
-import { Avatar } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { useUsers } from '@/lib/queries/users'
-import type { User } from '@/types/database'
+import { useState } from "react";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { useUsers } from "@/lib/queries/users";
+import type { User } from "@/types/database";
 
 // ── Role label mapping ────────────────────────────────────────────────────────
-const ROLE_LABELS: Record<User['role'], string> = {
-  employee: 'Dipendente',
-  manager: 'Manager',
-  admin: 'Admin',
-}
+const ROLE_LABELS: Record<User["role"], string> = {
+  employee: "Dipendente",
+  manager: "Manager",
+  admin: "Admin",
+};
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function PersoneContent() {
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("");
 
-  const { data: users = [], isLoading } = useUsers()
+  const { data: users = [], isLoading } = useUsers();
 
   const filtered = search.trim()
     ? users.filter((u) => {
-        const q = search.trim().toLowerCase()
+        const q = search.trim().toLowerCase();
         return (
           u.first_name.toLowerCase().includes(q) ||
           u.last_name.toLowerCase().includes(q) ||
           (u.preferred_name?.toLowerCase().includes(q) ?? false)
-        )
+        );
       })
-    : users
+    : users;
 
   return (
     <div data-testid="persone-page" className="px-6 pt-8 pb-6 max-w-lg mx-auto">
@@ -83,5 +83,5 @@ export default function PersoneContent() {
         </ul>
       )}
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/lib/supabase/client'
-import type { Notification } from '@/types/database'
-import { queryKeys } from './queryKeys'
+import { useQuery } from "@tanstack/react-query";
+import { createClient } from "@/lib/supabase/client";
+import type { Notification } from "@/types/database";
+import { queryKeys } from "./queryKeys";
 
 // ── useNotifications ──────────────────────────────────────────────────────────
 
@@ -10,21 +10,21 @@ export function useNotifications(userId: string | undefined) {
     queryKey: [...queryKeys.notifications.all, userId] as const,
     enabled: Boolean(userId),
     queryFn: async () => {
-      const supabase = createClient()
+      const supabase = createClient();
 
       const { data, error } = await supabase
-        .from('notification')
-        .select('*')
-        .eq('user_id', userId!)
-        .order('created_at')
+        .from("notification")
+        .select("*")
+        .eq("user_id", userId!)
+        .order("created_at");
 
       if (error) {
-        throw new Error(error.message)
+        throw new Error(error.message);
       }
 
-      return data
+      return data;
     },
-  })
+  });
 }
 
 // ── useUnreadCount ────────────────────────────────────────────────────────────
@@ -34,20 +34,20 @@ export function useUnreadCount(userId: string | undefined) {
     queryKey: queryKeys.notifications.unreadCount,
     enabled: Boolean(userId),
     queryFn: async () => {
-      const supabase = createClient()
+      const supabase = createClient();
 
       const { data, error } = await supabase
-        .from('notification')
-        .select('*')
-        .eq('user_id', userId!)
-        .eq('is_read', false)
-        .order('created_at')
+        .from("notification")
+        .select("*")
+        .eq("user_id", userId!)
+        .eq("is_read", false)
+        .order("created_at");
 
       if (error) {
-        throw new Error(error.message)
+        throw new Error(error.message);
       }
 
-      return data.length
+      return data.length;
     },
-  })
+  });
 }

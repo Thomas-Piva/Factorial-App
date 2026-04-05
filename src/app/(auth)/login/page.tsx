@@ -1,46 +1,46 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
 
     if (!email.trim()) {
-      setError('Email obbligatoria')
-      return
+      setError("Email obbligatoria");
+      return;
     }
 
     if (!password) {
-      setError('Password obbligatoria')
-      return
+      setError("Password obbligatoria");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
     try {
-      const supabase = createClient()
+      const supabase = createClient();
       const { error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
-      })
+      });
 
       if (authError) {
-        setError('Credenziali non valide. Riprova.')
-        return
+        setError("Credenziali non valide. Riprova.");
+        return;
       }
 
-      router.push('/home')
+      router.push("/home");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -49,7 +49,10 @@ export default function LoginPage() {
       <div className="rounded-3xl bg-surface-lowest p-8 shadow-sm">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-on-surface" style={{ fontWeight: 700 }}>
+          <h1
+            className="text-3xl font-bold text-on-surface"
+            style={{ fontWeight: 700 }}
+          >
             Factorial
           </h1>
           <p className="mt-1 text-sm text-on-surface-variant">Gestione turni</p>
@@ -60,7 +63,10 @@ export default function LoginPage() {
           <div className="flex flex-col gap-4">
             {/* Email */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="email" className="text-sm font-medium text-on-surface-variant">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-on-surface-variant"
+              >
                 Email
               </label>
               <input
@@ -76,7 +82,10 @@ export default function LoginPage() {
 
             {/* Password */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="password" className="text-sm font-medium text-on-surface-variant">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-on-surface-variant"
+              >
                 Password
               </label>
               <input
@@ -103,11 +112,11 @@ export default function LoginPage() {
               disabled={loading}
               className="mt-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-on-primary transition-opacity disabled:opacity-60"
             >
-              {loading ? 'Accesso in corso…' : 'Accedi'}
+              {loading ? "Accesso in corso…" : "Accedi"}
             </button>
           </div>
         </form>
       </div>
     </div>
-  )
+  );
 }

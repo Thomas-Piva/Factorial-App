@@ -1,63 +1,76 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { EmptyState } from '@/components/ui/empty-state'
-import { useCurrentUser } from '@/lib/queries/users'
-import { useMyStores } from '@/lib/queries/stores'
-import { useAbsencesByStoreMonth } from '@/lib/queries/shifts'
-import { SHIFT_TYPE_LABELS } from '@/lib/constants/shift-types'
+import { useState } from "react";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { EmptyState } from "@/components/ui/empty-state";
+import { useCurrentUser } from "@/lib/queries/users";
+import { useMyStores } from "@/lib/queries/stores";
+import { useAbsencesByStoreMonth } from "@/lib/queries/shifts";
+import { SHIFT_TYPE_LABELS } from "@/lib/constants/shift-types";
 
 // ── Italian month names ───────────────────────────────────────────────────────
 const MONTHS_IT = [
-  'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
-  'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre',
-]
+  "Gennaio",
+  "Febbraio",
+  "Marzo",
+  "Aprile",
+  "Maggio",
+  "Giugno",
+  "Luglio",
+  "Agosto",
+  "Settembre",
+  "Ottobre",
+  "Novembre",
+  "Dicembre",
+];
 
 // ── Format date as DD/MM/YYYY ─────────────────────────────────────────────────
 function formatDate(iso: string): string {
-  const [year, month, day] = iso.split('-')
-  return `${day}/${month}/${year}`
+  const [year, month, day] = iso.split("-");
+  return `${day}/${month}/${year}`;
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function AssenzeContent() {
-  const today = new Date()
+  const today = new Date();
 
   const [currentMonth, setCurrentMonth] = useState({
     year: today.getFullYear(),
     month: today.getMonth(), // 0-indexed
-  })
+  });
 
   // ── Month navigation ────────────────────────────────────────────────────────
   function goToPrevMonth() {
     setCurrentMonth(({ year, month }) => {
-      const newYear = month === 0 ? year - 1 : year
-      const newMonth = month === 0 ? 11 : month - 1
-      return { year: newYear, month: newMonth }
-    })
+      const newYear = month === 0 ? year - 1 : year;
+      const newMonth = month === 0 ? 11 : month - 1;
+      return { year: newYear, month: newMonth };
+    });
   }
 
   function goToNextMonth() {
     setCurrentMonth(({ year, month }) => {
-      const newYear = month === 11 ? year + 1 : year
-      const newMonth = month === 11 ? 0 : month + 1
-      return { year: newYear, month: newMonth }
-    })
+      const newYear = month === 11 ? year + 1 : year;
+      const newMonth = month === 11 ? 0 : month + 1;
+      return { year: newYear, month: newMonth };
+    });
   }
 
-  const { year, month } = currentMonth
-  const monthLabel = `${MONTHS_IT[month]} ${year}`
-  const monthKey = `${String(year)}-${String(month + 1).padStart(2, '0')}`
+  const { year, month } = currentMonth;
+  const monthLabel = `${MONTHS_IT[month]} ${year}`;
+  const monthKey = `${String(year)}-${String(month + 1).padStart(2, "0")}`;
 
   // ── Data queries ────────────────────────────────────────────────────────────
-  const { data: currentUser } = useCurrentUser()
-  const { data: stores = [] } = useMyStores(currentUser?.id)
+  const { data: currentUser } = useCurrentUser();
+  const { data: stores = [] } = useMyStores(currentUser?.id);
   const storeId: string | undefined =
-    stores.find((s) => s.is_primary)?.id ?? stores[0]?.id
+    stores.find((s) => s.is_primary)?.id ?? stores[0]?.id;
 
-  const { data: absences = [], isLoading } = useAbsencesByStoreMonth(storeId, monthKey)
+  const { data: absences = [], isLoading } = useAbsencesByStoreMonth(
+    storeId,
+    monthKey,
+  );
 
   return (
     <div data-testid="assenze-page" className="px-6 pt-8 pb-6 max-w-lg mx-auto">
@@ -99,8 +112,9 @@ export default function AssenzeContent() {
           {absences.map((absence) => {
             const userName = absence.user
               ? `${absence.user.first_name} ${absence.user.last_name}`
-              : '—'
-            const typeLabel = SHIFT_TYPE_LABELS[absence.shift_type] ?? absence.shift_type
+              : "—";
+            const typeLabel =
+              SHIFT_TYPE_LABELS[absence.shift_type] ?? absence.shift_type;
             return (
               <li
                 key={absence.id}
@@ -112,16 +126,18 @@ export default function AssenzeContent() {
                   style={{ backgroundColor: absence.color }}
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-on-surface">{userName}</p>
+                  <p className="text-sm font-semibold text-on-surface">
+                    {userName}
+                  </p>
                   <p className="text-xs text-on-surface-variant">
                     {typeLabel} · {formatDate(absence.date)}
                   </p>
                 </div>
               </li>
-            )
+            );
           })}
         </ul>
       )}
     </div>
-  )
+  );
 }

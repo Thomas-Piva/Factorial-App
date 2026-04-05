@@ -1,18 +1,18 @@
-'use client'
+"use client";
 
-import { Avatar } from '@/components/ui/avatar'
+import { Avatar } from "@/components/ui/avatar";
 
 interface GreetingSectionProps {
-  displayName: string
-  firstName?: string
-  lastName?: string
-  avatarUrl?: string | null
+  displayName: string;
+  firstName?: string;
+  lastName?: string;
+  avatarUrl?: string | null;
 }
 
 export default function GreetingSection({
   displayName,
-  firstName = '',
-  lastName = '',
+  firstName = "",
+  lastName = "",
   avatarUrl,
 }: GreetingSectionProps) {
   return (
@@ -32,5 +32,5 @@ export default function GreetingSection({
         </h2>
       </div>
     </section>
-  )
+  );
 }

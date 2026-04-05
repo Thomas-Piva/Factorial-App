@@ -1,33 +1,33 @@
 export const queryKeys = {
   shifts: {
-    all: ['shifts'] as const,
+    all: ["shifts"] as const,
     byStoreWeek: (storeId: string, weekStart: string) =>
-      ['shifts', storeId, weekStart] as const,
+      ["shifts", storeId, weekStart] as const,
     byUserMonth: (userId: string, month: string) =>
-      ['shifts', 'personal', userId, month] as const,
-    today: (storeId: string) => ['shifts', 'today', storeId] as const,
+      ["shifts", "personal", userId, month] as const,
+    today: (storeId: string) => ["shifts", "today", storeId] as const,
     todayForUser: (userId: string, storeId: string) =>
-      ['shifts', 'today', userId, storeId] as const,
+      ["shifts", "today", userId, storeId] as const,
   },
   absences: {
     byStoreMonth: (storeId: string, month: string) =>
-      ['absences', storeId, month] as const,
+      ["absences", storeId, month] as const,
   },
   templates: {
-    all: ['templates'] as const,
-    byStore: (storeId: string) => ['templates', storeId] as const,
+    all: ["templates"] as const,
+    byStore: (storeId: string) => ["templates", storeId] as const,
   },
   notifications: {
-    all: ['notifications'] as const,
-    unreadCount: ['notifications', 'unread-count'] as const,
+    all: ["notifications"] as const,
+    unreadCount: ["notifications", "unread-count"] as const,
   },
   users: {
-    all: ['users'] as const,
-    byStore: (storeId: string) => ['users', storeId] as const,
-    me: ['users', 'me'] as const,
+    all: ["users"] as const,
+    byStore: (storeId: string) => ["users", storeId] as const,
+    me: ["users", "me"] as const,
   },
   stores: {
-    all: ['stores'] as const,
-    mine: ['stores', 'mine'] as const,
+    all: ["stores"] as const,
+    mine: ["stores", "mine"] as const,
   },
-} as const
+} as const;

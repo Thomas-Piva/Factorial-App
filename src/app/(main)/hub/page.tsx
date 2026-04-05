@@ -1,32 +1,32 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 interface QuickCard {
-  href: string
-  icon: string
-  label: string
-  description: string
+  href: string;
+  icon: string;
+  label: string;
+  description: string;
 }
 
 const CARDS: QuickCard[] = [
   {
-    href: '/turni',
-    icon: 'calendar_month',
-    label: 'Turni',
-    description: 'Gestisci e pubblica i turni settimanali',
+    href: "/turni",
+    icon: "calendar_month",
+    label: "Turni",
+    description: "Gestisci e pubblica i turni settimanali",
   },
   {
-    href: '/assenze',
-    icon: 'event_busy',
-    label: 'Assenze',
-    description: 'Visualizza e registra le assenze del team',
+    href: "/assenze",
+    icon: "event_busy",
+    label: "Assenze",
+    description: "Visualizza e registra le assenze del team",
   },
   {
-    href: '/persone',
-    icon: 'group',
-    label: 'Persone',
-    description: 'Elenco dei dipendenti del negozio',
+    href: "/persone",
+    icon: "group",
+    label: "Persone",
+    description: "Elenco dei dipendenti del negozio",
   },
-]
+];
 
 export default function HubPage() {
   return (
@@ -50,11 +50,13 @@ export default function HubPage() {
             </div>
             <div>
               <p className="text-lg font-bold text-on-surface">{card.label}</p>
-              <p className="text-sm text-on-surface-variant">{card.description}</p>
+              <p className="text-sm text-on-surface-variant">
+                {card.description}
+              </p>
             </div>
           </Link>
         ))}
       </div>
     </div>
-  )
+  );
 }

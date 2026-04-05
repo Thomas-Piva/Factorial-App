@@ -1,18 +1,21 @@
-'use client'
+"use client";
 
-import type { ShiftAssignment } from '@/types/database'
-import { ShiftBlock } from '@/components/ui/shift-block'
-import { EmptyState } from '@/components/ui/empty-state'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import type { ShiftAssignment } from "@/types/database";
+import { ShiftBlock } from "@/components/ui/shift-block";
+import { EmptyState } from "@/components/ui/empty-state";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface TurnoOggiCardProps {
-  userId: string | undefined
-  storeId: string | undefined
-  shifts: ShiftAssignment[]
-  isLoading: boolean
+  userId: string | undefined;
+  storeId: string | undefined;
+  shifts: ShiftAssignment[];
+  isLoading: boolean;
 }
 
-export default function TurnoOggiCard({ shifts, isLoading }: TurnoOggiCardProps) {
+export default function TurnoOggiCard({
+  shifts,
+  isLoading,
+}: TurnoOggiCardProps) {
   return (
     <section className="mb-6">
       <h3 className="text-lg font-extrabold text-primary mb-3 tracking-tight">
@@ -22,10 +25,7 @@ export default function TurnoOggiCard({ shifts, isLoading }: TurnoOggiCardProps)
         {isLoading ? (
           <LoadingSpinner />
         ) : shifts.length === 0 ? (
-          <EmptyState
-            icon="calendar_today"
-            title="Nessun turno oggi"
-          />
+          <EmptyState icon="calendar_today" title="Nessun turno oggi" />
         ) : (
           <div className="flex flex-col gap-3">
             {shifts.map((shift) => (
@@ -41,5 +41,5 @@ export default function TurnoOggiCard({ shifts, isLoading }: TurnoOggiCardProps)
         )}
       </div>
     </section>
-  )
+  );
 }

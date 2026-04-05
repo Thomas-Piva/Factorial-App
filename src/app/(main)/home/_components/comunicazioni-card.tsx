@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 export default function ComunicazioniCard() {
   return (
@@ -15,5 +15,5 @@ export default function ComunicazioniCard() {
         </p>
       </div>
     </section>
-  )
+  );
 }
