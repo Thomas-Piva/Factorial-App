@@ -70,20 +70,35 @@ export function useColleaguesToday(storeId: string | undefined) {
     queryFn: async () => {
       const supabase = createClient()
 
-      // Fetch users who have a shift assignment at this store today
-      // by joining through shift_assignment
+      // Join shift_assignment → user to get colleagues with a published work_shift today.
+      // Multiple rows per (user_id, date) are possible for split shifts — deduplicate below.
       const { data, error } = await supabase
-        .from('user')
-        .select('*')
+        .from('shift_assignment')
+        .select('user:user!user_id(*)')
         .eq('store_id', storeId!)
         .eq('date', today)
-        .order('last_name')
+        .eq('shift_type', 'work_shift')
+        .not('published_at', 'is', null)
 
       if (error) {
         throw new Error(error.message)
       }
 
-      return data
+      // PostgREST may return the joined relation as null for missing rows
+      const rows = data as Array<{ user: User | null }>
+
+      // Deduplicate users (split shifts produce multiple rows per user per day)
+      const seen = new Set<string>()
+      const users: User[] = []
+      for (const row of rows) {
+        if (!row.user) continue
+        if (!seen.has(row.user.id)) {
+          seen.add(row.user.id)
+          users.push(row.user)
+        }
+      }
+
+      return users.sort((a, b) => a.last_name.localeCompare(b.last_name))
     },
   })
 }

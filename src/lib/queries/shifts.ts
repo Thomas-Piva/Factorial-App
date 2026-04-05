@@ -46,7 +46,7 @@ export function useMyShiftsToday(
   const today = new Date().toISOString().slice(0, 10)
 
   return useQuery<ShiftAssignment[]>({
-    queryKey: queryKeys.shifts.today(storeId ?? ''),
+    queryKey: queryKeys.shifts.todayForUser(userId ?? '', storeId ?? ''),
     enabled: Boolean(userId && storeId),
     queryFn: async () => {
       const supabase = createClient()

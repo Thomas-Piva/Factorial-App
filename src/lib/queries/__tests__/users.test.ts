@@ -9,6 +9,7 @@ import type { User } from '@/types/database'
 const mockSelect = vi.fn()
 const mockEq = vi.fn()
 const mockOrder = vi.fn()
+const mockNot = vi.fn()
 const mockFrom = vi.fn()
 const mockAuth = {
   getUser: vi.fn(),
@@ -67,12 +68,14 @@ beforeEach(() => {
     select: mockSelect,
     eq: mockEq,
     order: mockOrder,
+    not: mockNot,
   }
 
   mockFrom.mockReturnValue(chain)
   mockSelect.mockReturnValue(chain)
   mockEq.mockReturnValue(chain)
   mockOrder.mockResolvedValue({ data: [], error: null })
+  mockNot.mockResolvedValue({ data: [], error: null })
 
   mockAuth.getUser.mockResolvedValue({
     data: { user: null },
@@ -217,15 +220,30 @@ describe('useCurrentUser', () => {
 import { useColleaguesToday } from '@/lib/queries/users'
 
 describe('useColleaguesToday', () => {
-  it('returns users working at the store today', async () => {
-    // The implementation will join shift_assignment + user.
-    // For the mock we just verify the hook calls from() and returns data.
-    mockEq.mockReturnValue({
-      eq: mockEq,
-      select: mockSelect,
-      order: mockOrder,
+  it('returns users working at the store today via shift_assignment join', async () => {
+    // The implementation queries shift_assignment with user:user_id(*) join,
+    // then deduplicates and sorts by last_name.
+    mockNot.mockResolvedValueOnce({
+      data: [{ user: user1 }, { user: user2 }],
+      error: null,
     })
-    mockOrder.mockResolvedValueOnce({ data: [user1], error: null })
+
+    const { result } = renderHook(
+      () => useColleaguesToday('store-1'),
+      { wrapper: makeWrapper() },
+    )
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true))
+    // Sorted by last_name: Rossi (user1) < Verdi (user2)
+    expect(result.current.data).toEqual([user1, user2])
+  })
+
+  it('deduplicates users with split shifts (multiple rows per user per day)', async () => {
+    // user1 appears twice because they have two shift blocks on the same day
+    mockNot.mockResolvedValueOnce({
+      data: [{ user: user1 }, { user: user1 }],
+      error: null,
+    })
 
     const { result } = renderHook(
       () => useColleaguesToday('store-1'),
@@ -247,7 +265,7 @@ describe('useColleaguesToday', () => {
   })
 
   it('sets isError when Supabase returns an error', async () => {
-    mockOrder.mockResolvedValueOnce({
+    mockNot.mockResolvedValueOnce({
       data: null,
       error: { message: 'DB error' },
     })
