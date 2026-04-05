@@ -10,6 +10,7 @@ import { useMyStores } from '@/lib/queries/stores'
 import { useShiftsByStoreWeek } from '@/lib/queries/shifts'
 import { buildShiftGrid } from '@/lib/utils/shift-grid'
 import { getWeekRange, addDays, toISODate, eachDayOfInterval } from '@/lib/utils/date'
+import { exportShiftsPdf } from '@/lib/utils/export-pdf'
 
 // ── Day-of-week short labels (Mon-first) ──────────────────────────────────────
 const DAY_LABELS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
@@ -94,6 +95,39 @@ export default function TurniContent() {
         </div>
       ) : (
         <div data-testid="turni-grid" className="overflow-x-auto">
+          {/* Export PDF button */}
+          <div className="flex justify-end mb-3">
+            <button
+              data-testid="export-pdf-btn"
+              onClick={() => {
+                const dayLabels = DAY_LABELS.map((label, i) => {
+                  const dateISO = weekDays[i]
+                  const dayNum = new Date(dateISO).getDate()
+                  return `${label} ${dayNum}`
+                })
+                const rows = gridRows.map((row) => {
+                  const exportRow: { userName: string; [key: string]: string } = {
+                    userName: row.user.displayName,
+                  }
+                  for (const dateISO of weekDays) {
+                    const cell = row.cells[dateISO]
+                    exportRow[dateISO] = cell?.blocks.map((b) => b.label).join(', ') ?? ''
+                  }
+                  return exportRow
+                })
+                exportShiftsPdf({
+                  weekLabel: weekRange.label,
+                  days: weekDays,
+                  dayLabels,
+                  rows,
+                })
+              }}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container text-on-surface text-sm font-medium hover:bg-surface-container-high transition-colors"
+            >
+              <span className="material-symbols-outlined text-base">picture_as_pdf</span>
+              Esporta PDF
+            </button>
+          </div>
           {/* Column headers */}
           <div className="min-w-[600px]">
             <div className="grid grid-cols-[140px_repeat(7,1fr)] gap-1 mb-2">

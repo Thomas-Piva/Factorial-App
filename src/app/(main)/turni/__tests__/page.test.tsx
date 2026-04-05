@@ -2,9 +2,14 @@
  * Task 1: Tests for /turni page (shift scheduling grid)
  */
 
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import React from 'react'
+
+// ── Mock export-pdf to avoid PDF generation in tests ─────────────────────────
+vi.mock('@/lib/utils/export-pdf', () => ({
+  exportShiftsPdf: vi.fn(),
+}))
 
 // ── Next.js mocks ─────────────────────────────────────────────────────────────
 vi.mock('next/navigation', () => ({
@@ -205,5 +210,21 @@ describe('TurniContent', () => {
     // Users sorted by last_name: Bianchi first, then Rossi
     expect(screen.getByText('Anna')).toBeInTheDocument()
     expect(screen.getByText('Mario')).toBeInTheDocument()
+  })
+
+  it('"Esporta PDF" button is visible when grid has rows', () => {
+    mockUseUsers.mockReturnValue({ data: [MOCK_USER, MOCK_USER_2], isLoading: false })
+    mockUseShiftsByStoreWeek.mockReturnValue({ data: [MOCK_SHIFT], isLoading: false })
+
+    render(<TurniContent />, { wrapper })
+    expect(screen.getByTestId('export-pdf-btn')).toBeInTheDocument()
+  })
+
+  it('"Esporta PDF" button is NOT visible when grid is empty', () => {
+    mockUseUsers.mockReturnValue({ data: [], isLoading: false })
+    mockUseShiftsByStoreWeek.mockReturnValue({ data: [], isLoading: false })
+
+    render(<TurniContent />, { wrapper })
+    expect(screen.queryByTestId('export-pdf-btn')).not.toBeInTheDocument()
   })
 })
