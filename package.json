@@ -13,7 +13,8 @@
     "type-check": "tsc --noEmit",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "db:reset": "supabase db reset && node scripts/seed-auth.mjs"
   },
   "dependencies": {
     "@serwist/next": "^9.0.14",

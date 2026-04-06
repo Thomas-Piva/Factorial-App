@@ -5,8 +5,12 @@
 -- È SOLO per sviluppo locale / CI; non eseguire mai in produzione.
 --
 -- Ordine di esecuzione (rispetta le dipendenze FK):
---   auth.users -> auth.identities -> user -> store -> store_membership
---   -> shift_template -> shift_assignment -> notification
+--   user -> store -> store_membership -> shift_template -> shift_assignment -> notification
+--
+-- NOTA: auth.users e auth.identities NON vengono inseriti qui.
+-- GoTrue ignora le INSERT SQL dirette in auth.users — gli utenti devono essere
+-- creati tramite Admin API. Eseguire dopo il reset:
+--   node scripts/seed-auth.mjs
 -- =============================================================================
 
 -- ---------------------------------------------------------------------------
@@ -18,169 +22,66 @@ ALTER TABLE "user" DISABLE TRIGGER trg_user_protect_role;
 
 -- ===========================================================================
 -- SEZIONE 1: auth.users
--- Inserisce le righe stub nella tabella di autenticazione di Supabase.
--- Le password vengono hashate con bcrypt (compatibile con GoTrue).
--- email_confirmed_at è impostato a now() per considerare l'email verificata.
+-- Inserisce gli utenti con password bcrypt e email confermata.
+-- Dopo `supabase db reset` eseguire anche: node scripts/seed-auth.mjs
+-- per registrare le password nel registro interno di GoTrue.
 -- ===========================================================================
 INSERT INTO auth.users (
-  id,
-  email,
-  encrypted_password,
-  email_confirmed_at,
-  raw_app_meta_data,
-  raw_user_meta_data,
-  is_super_admin,
-  created_at,
-  updated_at,
-  aud,
-  role
+  instance_id,
+  id, email, encrypted_password, email_confirmed_at,
+  raw_app_meta_data, raw_user_meta_data, is_super_admin,
+  confirmation_token, recovery_token, email_change_token_new, email_change,
+  created_at, updated_at, aud, role
 )
 VALUES
-  -- -------------------------------------------------------------------------
-  -- Utente di test generico: test@example.com / password123
-  -- UUID deterministico: 00000000-0000-0000-0000-000000000000
-  -- -------------------------------------------------------------------------
   ('00000000-0000-0000-0000-000000000000',
-   'test@example.com',
-   crypt('password123', gen_salt('bf')),
-   now(),
-   '{"provider": "email", "providers": ["email"]}',
-   '{}',
-   false,
-   now(), now(),
-   'authenticated',
-   'authenticated'),
-
-  -- -------------------------------------------------------------------------
-  -- Manager: Marco Rossi
-  -- -------------------------------------------------------------------------
-  ('00000000-0000-0000-0000-000000000001',
-   'marco.rossi@factorial.test',
-   crypt('Dev1234!', gen_salt('bf')),
-   now(),
-   '{"provider": "email", "providers": ["email"]}',
-   '{}',
-   false,
-   now(), now(),
-   'authenticated',
-   'authenticated'),
-
-  -- -------------------------------------------------------------------------
-  -- Dipendente: Giulia Bianchi
-  -- -------------------------------------------------------------------------
-  ('00000000-0000-0000-0000-000000000002',
-   'giulia.bianchi@factorial.test',
-   crypt('Dev1234!', gen_salt('bf')),
-   now(),
-   '{"provider": "email", "providers": ["email"]}',
-   '{}',
-   false,
-   now(), now(),
-   'authenticated',
-   'authenticated'),
-
-  -- -------------------------------------------------------------------------
-  -- Dipendente: Luca Ferrari
-  -- -------------------------------------------------------------------------
-  ('00000000-0000-0000-0000-000000000003',
-   'luca.ferrari@factorial.test',
-   crypt('Dev1234!', gen_salt('bf')),
-   now(),
-   '{"provider": "email", "providers": ["email"]}',
-   '{}',
-   false,
-   now(), now(),
-   'authenticated',
-   'authenticated')
-
+   '00000000-0000-0000-0000-000000000001',
+   'marco.rossi@factorial.test', crypt('Dev1234!', gen_salt('bf')),
+   now(), '{"provider":"email","providers":["email"]}', '{}', false,
+   '', '', '', '',
+   now(), now(), 'authenticated', 'authenticated'),
+  ('00000000-0000-0000-0000-000000000000',
+   '00000000-0000-0000-0000-000000000002',
+   'giulia.bianchi@factorial.test', crypt('Dev1234!', gen_salt('bf')),
+   now(), '{"provider":"email","providers":["email"]}', '{}', false,
+   '', '', '', '',
+   now(), now(), 'authenticated', 'authenticated'),
+  ('00000000-0000-0000-0000-000000000000',
+   '00000000-0000-0000-0000-000000000003',
+   'luca.ferrari@factorial.test', crypt('Dev1234!', gen_salt('bf')),
+   now(), '{"provider":"email","providers":["email"]}', '{}', false,
+   '', '', '', '',
+   now(), now(), 'authenticated', 'authenticated'),
+  ('00000000-0000-0000-0000-000000000000',
+   '00000000-0000-0000-0000-000000000004',
+   'test@example.com', crypt('password123', gen_salt('bf')),
+   now(), '{"provider":"email","providers":["email"]}', '{}', false,
+   '', '', '', '',
+   now(), now(), 'authenticated', 'authenticated')
 ON CONFLICT (id) DO NOTHING;
 
--- ===========================================================================
--- SEZIONE 2: auth.identities
--- Obbligatoria per far funzionare signInWithPassword con il provider "email".
--- Senza questa riga, GoTrue non trova l'identità e il login fallisce.
---
--- Campi chiave:
---   provider_id  = l'email dell'utente (identificatore univoco per "email")
---   provider     = 'email'
---   identity_data = JSON con sub (= user id) e la email
---   user_id      = riferimento a auth.users.id
--- ===========================================================================
-INSERT INTO auth.identities (
-  id,
-  user_id,
-  provider_id,
-  provider,
-  identity_data,
-  last_sign_in_at,
-  created_at,
-  updated_at
-)
+INSERT INTO auth.identities (id, user_id, provider_id, provider, identity_data, last_sign_in_at, created_at, updated_at)
 VALUES
-  -- -------------------------------------------------------------------------
-  -- Identità email per test@example.com
-  -- -------------------------------------------------------------------------
-  ('00000000-0000-0000-0000-000000000000',
-   '00000000-0000-0000-0000-000000000000',
-   'test@example.com',
-   'email',
-   jsonb_build_object(
-     'sub',           '00000000-0000-0000-0000-000000000000',
-     'email',         'test@example.com',
-     'email_verified', true,
-     'phone_verified', false
-   ),
+  ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001',
+   'marco.rossi@factorial.test',    'email',
+   jsonb_build_object('sub','00000000-0000-0000-0000-000000000001','email','marco.rossi@factorial.test','email_verified',true,'phone_verified',false),
    now(), now(), now()),
-
-  -- -------------------------------------------------------------------------
-  -- Identità email per marco.rossi@factorial.test
-  -- -------------------------------------------------------------------------
-  ('00000000-0000-0000-0000-000000000001',
-   '00000000-0000-0000-0000-000000000001',
-   'marco.rossi@factorial.test',
-   'email',
-   jsonb_build_object(
-     'sub',           '00000000-0000-0000-0000-000000000001',
-     'email',         'marco.rossi@factorial.test',
-     'email_verified', true,
-     'phone_verified', false
-   ),
+  ('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000002',
+   'giulia.bianchi@factorial.test', 'email',
+   jsonb_build_object('sub','00000000-0000-0000-0000-000000000002','email','giulia.bianchi@factorial.test','email_verified',true,'phone_verified',false),
    now(), now(), now()),
-
-  -- -------------------------------------------------------------------------
-  -- Identità email per giulia.bianchi@factorial.test
-  -- -------------------------------------------------------------------------
-  ('00000000-0000-0000-0000-000000000002',
-   '00000000-0000-0000-0000-000000000002',
-   'giulia.bianchi@factorial.test',
-   'email',
-   jsonb_build_object(
-     'sub',           '00000000-0000-0000-0000-000000000002',
-     'email',         'giulia.bianchi@factorial.test',
-     'email_verified', true,
-     'phone_verified', false
-   ),
+  ('00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000003',
+   'luca.ferrari@factorial.test',   'email',
+   jsonb_build_object('sub','00000000-0000-0000-0000-000000000003','email','luca.ferrari@factorial.test','email_verified',true,'phone_verified',false),
    now(), now(), now()),
-
-  -- -------------------------------------------------------------------------
-  -- Identità email per luca.ferrari@factorial.test
-  -- -------------------------------------------------------------------------
-  ('00000000-0000-0000-0000-000000000003',
-   '00000000-0000-0000-0000-000000000003',
-   'luca.ferrari@factorial.test',
-   'email',
-   jsonb_build_object(
-     'sub',           '00000000-0000-0000-0000-000000000003',
-     'email',         'luca.ferrari@factorial.test',
-     'email_verified', true,
-     'phone_verified', false
-   ),
+  ('00000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000004',
+   'test@example.com',              'email',
+   jsonb_build_object('sub','00000000-0000-0000-0000-000000000004','email','test@example.com','email_verified',true,'phone_verified',false),
    now(), now(), now())
-
 ON CONFLICT (provider, provider_id) DO NOTHING;
 
 -- ===========================================================================
--- SEZIONE 3: public.user (profili applicativi)
+-- SEZIONE 2: public.user (profili applicativi)
 -- Ogni riga è collegata 1-a-1 con auth.users tramite lo stesso UUID.
 -- ===========================================================================
 INSERT INTO "user" (id, email, first_name, last_name, role, admission_date, is_active)
@@ -189,7 +90,7 @@ VALUES
   -- Profilo per l'utente di test generico
   -- Ruolo 'employee' di default; modificabile dal manager dopo il login.
   -- -------------------------------------------------------------------------
-  ('00000000-0000-0000-0000-000000000000',
+  ('00000000-0000-0000-0000-000000000004',
    'test@example.com',
    'Test', 'User',
    'employee',
@@ -229,7 +130,7 @@ VALUES
 ON CONFLICT (id) DO NOTHING;
 
 -- ===========================================================================
--- SEZIONE 4: store (punti vendita)
+-- SEZIONE 2: store (punti vendita)
 -- ===========================================================================
 INSERT INTO store (id, name, code, address, city, phone, is_active)
 VALUES
@@ -252,7 +153,7 @@ VALUES
 ON CONFLICT (id) DO NOTHING;
 
 -- ===========================================================================
--- SEZIONE 5: store_membership
+-- SEZIONE 3: store_membership
 -- Assegna gli utenti ai punti vendita.
 -- Marco (manager) appartiene a entrambi i negozi.
 -- Giulia, Luca e Test User appartengono a MIL01 come negozio primario.
@@ -260,7 +161,7 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO store_membership (user_id, store_id, is_primary)
 VALUES
   -- Test User: primario MIL01
-  ('00000000-0000-0000-0000-000000000000', '10000000-0000-0000-0000-000000000001', true),
+  ('00000000-0000-0000-0000-000000000004', '10000000-0000-0000-0000-000000000001', true),
 
   -- Marco: primario MIL01, secondario ROM01
   ('00000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', true),
@@ -275,7 +176,7 @@ VALUES
 ON CONFLICT (user_id, store_id) DO NOTHING;
 
 -- ===========================================================================
--- SEZIONE 6: shift_template (modelli turno per MIL01)
+-- SEZIONE 4: shift_template (modelli turno per MIL01)
 -- ===========================================================================
 INSERT INTO shift_template (id, store_id, created_by, name, shift_type, start_time, end_time, color, is_active)
 VALUES
@@ -330,7 +231,7 @@ VALUES
 ON CONFLICT (id) DO NOTHING;
 
 -- ===========================================================================
--- SEZIONE 7: shift_assignment
+-- SEZIONE 5: shift_assignment
 -- Settimana pubblicata per Giulia a MIL01 (06-12 Aprile 2026).
 -- Turno bozza (non pubblicato) per Luca.
 -- ===========================================================================
@@ -407,7 +308,7 @@ VALUES
 ON CONFLICT DO NOTHING;
 
 -- ===========================================================================
--- SEZIONE 8: notification (notifiche di esempio per Giulia)
+-- SEZIONE 6: notification (notifiche di esempio per Giulia)
 -- ===========================================================================
 INSERT INTO notification (user_id, created_by, type, title, body, is_read)
 VALUES
